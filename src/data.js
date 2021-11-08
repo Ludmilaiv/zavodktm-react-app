@@ -1,4 +1,4 @@
-const path = "https://zavodktm.ru";
+const path = "http://zavodktm";
 
 const data = {
   regURL: path + "/reg",
