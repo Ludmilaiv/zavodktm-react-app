@@ -1,0 +1,70 @@
+import TempOut from '../tempOut';
+import Form from '../form';
+import Devices from '../devices';
+import AnyOut from "../anyOut";
+
+const Widget = ({
+  typeClass, tempID="tempFlow", setID="setsTempCO", icon, 
+  showActivePage,
+  activePage,
+  errCount = 0,
+}) => {
+
+  const className = `widget widget_layout widget_${typeClass} widget_position`;
+  const main = typeClass==="main";
+
+  // Для виджета на страничке авторизации
+  if (typeClass === "author") {
+    return (
+      <div className={className}>
+        <Form formType={typeClass} activePage={activePage} showActivePage={showActivePage} />
+      </div>
+    )
+  } 
+
+  // Для виджета на страничке с устройствами
+
+  if (typeClass === "devices") {
+    return (
+      <div className={className}>
+        <Devices showActivePage={showActivePage}/>
+      </div>
+    )
+  }
+
+  // Для виджета на главной странице контроля устройства (home)
+
+  const outBottom = 
+    <div className="widget__out widget__out_bottom">
+      <span className="widget__span-label">
+        <AnyOut outID="status"/>
+      </span>
+      <span className="widget__span-info widget__span-info_flex">
+        <span className="widget__span-info-item">
+          <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
+          <span><AnyOut outID="setsTokShnek1"/></span>
+        </span>
+        <span className="widget__span-info-item">
+          <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
+          <span><AnyOut outID="setsVent1"/></span>
+        </span>
+      </span>
+    </div>
+  return (
+    <div className={className}>
+      <div className={
+          `widget__out widget__out_corner ${typeClass==="main"?"widget__out_corner-big":""}`
+          }>
+          <AnyOut outID={setID}/>
+      </div>
+      <TempOut main={main} tempID={tempID}/>
+      {main ? outBottom : ""}
+      <div className="widget__icon">
+        <img src={`images/icon_${icon}.png`} alt="" className="widget__img"/>
+      </div>
+    </div>
+  )
+}
+
+
+export default Widget

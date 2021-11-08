@@ -1,0 +1,40 @@
+.form
+  &_flex
+    display: flex
+    flex-direction: column
+    justify-content: center
+    margin: 5vw
+    margin: calc(var(--vh, 1vh) * 5)
+    font-family: $main-font
+    height: 100%
+    padding-bottom: 6vh 
+    padding-bottom: calc(var(--vh, 1vh) * 6)
+  &__input
+    &_err
+      border-color: $font-color-highlight
+    margin: 0 0 4vw 0
+    margin: 0 0 calc(var(--vh, 1vh) * 4) 0
+    outline: none
+    padding: 1vw
+    font-size: 5vw
+    background: $widget-color
+    border: $border
+    border-radius: $border-radius
+    color: $font-color-main
+  &__button
+    margin-bottom: 3vw
+  &__label
+    display: block
+    color: $font-color-main
+    font-size: 5vw
+    margin-bottom: 2vw
+    text-align: center
+  &__link
+    text-decoration: none
+    color: $font-color-main
+  &__error
+    color: $font-color-highlight
+    margin-bottom: 2vw
+    text-align: center
+  
+

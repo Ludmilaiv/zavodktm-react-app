@@ -1,0 +1,51 @@
+.button
+  &__span
+    &_burger
+      &:before
+        display: block
+        width: 100%
+        height: 4px;
+        position: absolute
+        top: -1.5vh
+        background-color: $border-color
+        content: ''
+      &:after
+        display: block
+        width: 100%
+        height: 4px
+        position: absolute
+        top: 1.5vh
+        background-color: $border-color
+        content: ''
+      display: block
+      position: relative
+      height: 4px
+      width: 100%
+      background-color: $border-color
+  &_burger
+    height: 6vh
+    height: calc(var(--vh, 1vh) * 6)
+    width: 100%vw
+    display: flex
+    flex-direction: column
+  &_normal
+    justify-content: center
+    border: $border
+    border-radius: $border-radius
+    padding: 0 3.5vw
+    background: $widget-color
+    text-align: center
+  &_light
+    justify-content: center
+    border: $border
+    border-radius: $border-radius
+    padding: 0 3.5vw
+    color: $font-color-main
+    background: $pannel-color
+    text-align: center
+    padding: 1vw
+  
+
+    
+
+    
