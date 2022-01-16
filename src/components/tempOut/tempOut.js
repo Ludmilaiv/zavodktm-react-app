@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import data from "../../data";
 
-function TempOut({temp=null, main=false, header=false, tempID}) {
+function TempOut({temp=null, main=false, header=false, tempID, compact=false}) {
 
   const fl = x => ( (x.toString().includes('.')) ? (x.toString().split('.').pop().length) : (0) );
  
@@ -35,19 +35,21 @@ function TempOut({temp=null, main=false, header=false, tempID}) {
     )
   }
 
+  const outType = (compact) ? "compact" : "center";
+
   return (
-    <div className="widget__out widget__out_center" id={tempID}>
+    <div className={`widget__out widget__out_${outType}`}id={tempID}>
       <span className={
-        `widget__span-int ${main ? "widget__span-int_big" : ""}`
+        `widget__span-int ${main ? "widget__span-int_big" : (compact ? "widget__span-int_compact" : "")}`
         }>
         {tempInt}.
       </span>
       <span className={
-        `widget__span-fraction ${main ? "widget__span-fraction_big" : ""}`
+        `widget__span-fraction ${main ? "widget__span-fraction_big": (compact ? "widget__span-fraction_compact" : "")}`
         }>
         {tempFraction ? tempFraction : "-"}   
       </span>
-      <span className="widget__span-unit">
+      <span className={`widget__span-unit ${compact ? "widget__span-unit_compact" : ""}`}>
         &nbsp;{data.metricDict[tempID]}   
       </span>
     </div>

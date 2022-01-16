@@ -9,7 +9,7 @@ const Menu = ({showActivePage}) => {
     {title: "Котёл", imgClass: "_kotel", id:"kotel"},
     {title: "Бойлер", imgClass: "_boler", id:"boler"},
     {title: "Термостат", imgClass: "_termostat", id:"termos"},
-    {title: "Настройки", imgClass: "_settings", id:"settings"},
+    //{title: "Настройки", imgClass: "_settings", id:"settings"},
   ]
 
 

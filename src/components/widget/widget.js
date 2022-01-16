@@ -2,6 +2,9 @@ import TempOut from '../tempOut';
 import Form from '../form';
 import Devices from '../devices';
 import AnyOut from "../anyOut";
+import Kotel from "../kotel";
+import Boler from '../boler';
+import Termos from '../termos';
 
 const Widget = ({
   typeClass, tempID="tempFlow", setID="setsTempCO", icon, 
@@ -31,6 +34,27 @@ const Widget = ({
       </div>
     )
   }
+  
+  // Для виджета на странице настроек котла (kotel)
+  if (typeClass === "kotel") {
+    return (
+      <Kotel className={className}/>
+    )
+  }
+
+  // Для виджета на странице настроек котла (boler)
+  if (typeClass === "boler") {
+    return (
+      <Boler className={className}/>
+    )
+  }
+
+  // Для виджета на странице настроек котла (termos)
+  if (typeClass === "termos") {
+    return (
+      <Termos className={className}/>
+    )
+  }
 
   // Для виджета на главной странице контроля устройства (home)
 
@@ -42,7 +66,7 @@ const Widget = ({
       <span className="widget__span-info widget__span-info_flex">
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
-          <span><AnyOut outID="setsTokShnek1"/></span>
+          <span><AnyOut outID="setsTokShnek1"/><span className="widget__text_normal">%</span></span>
         </span>
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
@@ -65,6 +89,8 @@ const Widget = ({
     </div>
   )
 }
+
+ 
 
 
 export default Widget

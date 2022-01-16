@@ -1,14 +1,14 @@
-const Button = ({addClass, buttonSpan, type, onClick}) => {
+const Button = ({addClass, buttonSpan, type, onClick, style}) => {
   const className = `button button_normal ${addClass}`;
-  if (type==="submit" || type==="popup") {
+  if (onClick) {
     return (
-    <div className={className} onClick={onClick}>
+    <div className={className} onClick={onClick} style={style}>
       {buttonSpan}
     </div>
     )
   } else {
     return (
-      <div className={className}>
+      <div className={className} style={style}>
         {buttonSpan}
       </div>
       )

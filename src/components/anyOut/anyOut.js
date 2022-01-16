@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-//import data from "../../data";
+import data from "../../data";
 
 function AnyOut({out=null, outID, def='--'}) {
 
@@ -13,6 +13,19 @@ function AnyOut({out=null, outID, def='--'}) {
     return (
       <>  {(out && out > -1) ? statusDict[out] : "Не в сети"}  </>
     )
+  }
+
+  if (out===null) {
+    out = "--";
+  } else if (data.coefDict[outID]) {
+    const fl = x => ( (x.toString().includes('.')) ? (x.toString().split('.').pop().length) : (0) );
+    out = out * data.coefDict[outID];
+    out = out.toFixed(fl(data.coefDict[outID]));
+    if (out.split(".")[0] === "-100" || out.split(".")[0] === "-127") {
+      out = "--";
+    } else if (outID === "current2") {
+      out = out.split(".")[0];
+    }
   }
 
   return (

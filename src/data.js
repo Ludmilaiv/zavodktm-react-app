@@ -1,4 +1,4 @@
-const path = "http://zavodktm";
+const path = "https://zavodktm.ru";
 
 const data = {
   regURL: path + "/reg",
@@ -9,6 +9,7 @@ const data = {
   editDeviceURL: path + "/edit-device",
   addDeviceURL: path + "/add-device",
   getDataURL: path + "/get-data",
+  setDataURL: path + "/set-data",
   metricDict: {
     tempFlow: <>&deg;C</>,
     tempReturn: <>&deg;C</>,
