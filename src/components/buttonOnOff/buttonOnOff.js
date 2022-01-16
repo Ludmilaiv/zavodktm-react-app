@@ -19,7 +19,7 @@ const ButtonOnOff = ({setID, setVal=0, status=-1, loading=false}) => {
       store.dispatch(setTemp(state));
     }
     if (loading) {
-      setTimeout(stopLoading, 2000);
+      setTimeout(stopLoading, 5000);
     }
     return () => clearTimeout(stopLoading);
     
@@ -50,7 +50,7 @@ const ButtonOnOff = ({setID, setVal=0, status=-1, loading=false}) => {
       buttonImg = "images/power.png";
     } else {
       buttonImg = "images/power.png";
-      style.backgroundColor = "#228B22";
+      style.backgroundColor = "#ff8000";
     }
   
   const buttonSpan = <span><img className="button__img" src={buttonImg} alt="play"/></span>;

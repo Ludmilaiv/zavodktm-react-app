@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import store  from '../../store';
 import { setTemp } from '../../actions';
 import { useState, useEffect } from "react";
-import AnyOut from "../anyOut";
 
 const statusDict = [ //справочник статусов
   "Выкл",
@@ -58,9 +57,10 @@ const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading=false}) => {
       buttonImg = "images/play.png";
     } else {
       buttonImg = "images/stop.png";
+      style.backgroundColor = "#ff8000";
     }
   }
-  const buttonSpan = <span><img className="button__img" src={buttonImg} alt="play"/></span>;
+  const buttonSpan = <img className="button__img" src={buttonImg} alt="play"/>;
 
   return (
     <Button buttonSpan={buttonSpan} type="play" addClass={addClass} style={style} onClick={startStop} />
