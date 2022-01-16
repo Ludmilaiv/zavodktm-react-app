@@ -23,13 +23,18 @@ function AnyOut({out=null, outID, def='--'}) {
     out = out.toFixed(fl(data.coefDict[outID]));
     if (out.split(".")[0] === "-100" || out.split(".")[0] === "-127") {
       out = "--";
-    } else if (outID === "current2") {
+    } else if (outID === "shnek") {
       out = out.split(".")[0];
     }
   }
 
+  const style = {};
+  if (Number(out) >= 100) {
+    style['fontSize'] = '0.7em';
+  };
+
   return (
-    <> {(out && Number(out) !== 127 && Number(out) !== 100) ? out : def} </>
+    <span style={style}> {(out && Number(out) !== -127 && Number(out) !== -100) ? out : def} </span>
   )
   
 }

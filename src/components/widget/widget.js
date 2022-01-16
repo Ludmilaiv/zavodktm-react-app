@@ -5,6 +5,7 @@ import AnyOut from "../anyOut";
 import Kotel from "../kotel";
 import Boler from '../boler';
 import Termos from '../termos';
+import store from "../../store";
 
 const Widget = ({
   typeClass, tempID="tempFlow", setID="setsTempCO", icon, 
@@ -66,11 +67,17 @@ const Widget = ({
       <span className="widget__span-info widget__span-info_flex">
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
-          <span><AnyOut outID="setsTokShnek1"/><span className="widget__text_normal">%</span></span>
+          <span>
+            {store.getState().setsType === 1 ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1"/>}
+            <span className="widget__text_normal">%</span>
+          </span>
         </span>
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
-          <span><AnyOut outID="setsVent1"/></span>
+          <span>
+            {store.getState().setsType === 1 ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
+            <span className="widget__text_normal">%</span>
+          </span>
         </span>
       </span>
     </div>

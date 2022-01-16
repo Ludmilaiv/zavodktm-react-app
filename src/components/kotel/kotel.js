@@ -2,6 +2,8 @@ import TempOut from "../tempOut";
 import AnyOut from "../anyOut";
 import ButtonPlay from "../buttonPlay";
 import Slider from "../slider";
+import store from "../../store";
+
 const Kotel = ({className}) => {
 
   return (
@@ -12,6 +14,9 @@ const Kotel = ({className}) => {
         </div>
         <TempOut main={false} compact={true} tempID="tempFlow" />
         <Slider outID="setsTempCO" min={10} max={95}/>
+        <span className="widget__span-label widget__span-label_small">
+          <AnyOut outID="status"/>
+        </span>
         <ButtonPlay statusID="status" setID="setsStartGor1" />
         <div className="widget__out widget__out_column">
           <span className="widget__span-info-item widget__span-info-item_flex">
@@ -38,14 +43,17 @@ const Kotel = ({className}) => {
           <img src="images/shnek.png" alt="" className="widget__img"/>
         </div>
         <div className="widget__out widget__out_top">
-          <span><AnyOut outID="current2"/><span className="widget__text_normal">%</span></span>
+          <span>
+            {store.getState().setsType === 1 ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1"/>}
+            <span className="widget__text_normal">%</span>
+          </span>
         </div>
         <Slider outID="setsShnek1" min={1} max={100}/>
         <div className="widget__out widget__out_bottom-center">
           <span className="widget__span-info widget__span-info_flex">
             <span className="widget__span-info-item widget__span-info-item_small">
               <img className="widget__span-info-img widget__span-info-img_small" src="images/amper.png" alt=""/>
-              <span className="widget__span-flex"><AnyOut outID="currentOrCurrent1"/><span className="widget__text_normal">&nbsp;A</span></span>
+              <span className="widget__span-flex"><AnyOut outID="current"/><span className="widget__text_normal">&nbsp;A</span></span>
             </span>
             <span className="widget__span-info-item widget__span-info-item_small">
               <img className="widget__span-info-img widget__span-info-img_small" src="images/small-deg.png" alt=""/>
@@ -65,7 +73,10 @@ const Kotel = ({className}) => {
           <img src={`images/ventel.png`} alt="" className="widget__img"/>
         </div>
         <div className="widget__out widget__out_top">
-          <span><AnyOut outID="ventel"/><span className="widget__text_normal">%</span></span>
+          <span>
+            {store.getState().setsType === 1 ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
+            <span className="widget__text_normal">%</span>
+          </span>
         </div>
         <Slider outID="setsVent1" min={1} max={100}/>
       </div>

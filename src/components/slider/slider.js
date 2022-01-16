@@ -7,8 +7,6 @@ import store from '../../store';
 
 const Slider = ({value, outID, min, max}) => {
 
-  console.log(outID);
-
   function setData(val) {
     const states = {}; 
     states[outID] = (val < min) ? min : ((val > max) ? max : val);
@@ -19,7 +17,7 @@ const Slider = ({value, outID, min, max}) => {
   function unblock() {
     const states = {};
     states[`block_${outID}`] = false;
-    setTimeout(()=>{store.dispatch(setTemp(states))}, 7000);
+    setTimeout(()=>{store.dispatch(setTemp(states))}, 5000);
   }
 
   return (

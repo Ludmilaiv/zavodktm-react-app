@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import store  from '../../store';
 import { setTemp } from '../../actions';
 import { useState, useEffect } from "react";
+import AnyOut from "../anyOut";
 
 const statusDict = [ //справочник статусов
   "Выкл",
@@ -53,12 +54,10 @@ const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading=false}) => {
   } else if (statusID === "status") {
     if (status === -1) {
       buttonImg = "images/offline.png";
-      style.backgroundColor = "#696969";
     } else if (statusDict[status] === "Выкл") {
       buttonImg = "images/play.png";
     } else {
       buttonImg = "images/stop.png";
-      style.backgroundColor = "#228B22";
     }
   }
   const buttonSpan = <span><img className="button__img" src={buttonImg} alt="play"/></span>;
