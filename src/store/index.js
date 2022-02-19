@@ -34,7 +34,7 @@ const initialState = {
   tempOutside: null,
   tempSmoke: null,
   current: null,
-  shnek: null,
+  shnekOrCurrent1: null,
   ventel: null,
   setsTempCO: null,
   setsTokShnek1: null,
@@ -103,7 +103,7 @@ const tempDict = {
   'tempOutside': 6,
   'tempSmoke': 7,
   'current': 8,
-  'shnek': 9,
+  'shnekOrCurrent1': 9,
   'ventel': 10
 }
 
@@ -122,12 +122,21 @@ const setsDict = {
   'setsType': 63
 }
 
+const connect = {
+  s5: 's6',
+  s11: 's12'
+}
+
 function sendSettings(settingsName, value) {
   if (!localStorage.getItem(localStorage.getItem("user")+"defaultDev")) return;
   const id = localStorage.getItem(localStorage.getItem("user")+"defaultDev");
   const sets = {id};
-  sets[`s${setsDict[settingsName] + 1}`] = value;
-  axios.post(data.setDataURL, sets)
+  const k = `s${setsDict[settingsName] + 1}`;
+  sets[k] = value;
+  if (k in connect) {
+    sets[connect[k]] = value;
+  }
+  axios.post(data.setDataURL, sets);
 }
  
 function getData(){
@@ -152,7 +161,7 @@ function getData(){
           tempOutside: null,
           tempSmoke: null,
           current: null,
-          shnek: null,
+          shnekOrCurrent1: null,
           ventel: null,
           setsTempCO: null,
           setsTokShnek1: null,
@@ -190,7 +199,7 @@ function getData(){
           tempOutside: temp[tempDict.tempOutside],
           tempSmoke: temp[tempDict.tempSmoke],
           current: temp[tempDict.current],
-          shnek: temp[tempDict.shnek],
+          shnekOrCurrent1: temp[tempDict.shnekOrCurrent1],
           setsOnGV: set[setsDict.setsOnGV],
           setsType: set[setsDict.setsType],
         }));

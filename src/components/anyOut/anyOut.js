@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import data from "../../data";
+import store from "../../store";
 
 function AnyOut({out=null, outID, def='--'}) {
 
@@ -23,7 +24,7 @@ function AnyOut({out=null, outID, def='--'}) {
     out = out.toFixed(fl(data.coefDict[outID]));
     if (out.split(".")[0] === "-100" || out.split(".")[0] === "-127") {
       out = "--";
-    } else if (outID === "shnek") {
+    } else if (outID === "shnekOrCurrent1" && store.getState().setsType === 1) {
       out = out.split(".")[0];
     }
   }

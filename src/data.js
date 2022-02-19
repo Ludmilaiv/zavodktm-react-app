@@ -19,7 +19,7 @@ const data = {
     tempOutside: <>&deg;C</>,
     tempSmoke: <>&deg;C</>,
     current: <>A</>,
-    shnek: <>%</>
+    shnekOrCurrent1: <>A</>
   },
   coefDict: {
     tempFlow: 0.1,
@@ -30,7 +30,7 @@ const data = {
     tempOutside: 0.1,
     tempSmoke: 0.1,
     current: 0.01,
-    shnek: 0.01
+    shnekOrCurrent1: 0.01
   }
 }
 
