@@ -23,10 +23,8 @@ const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading=false}) => {
 
   useEffect(()=>{
     if (!statusID) return;
-    if (oldStatus !== !!Number(status)) {
-      const state = {};
-      state[`loading_${statusID}`] = false;
-      store.dispatch(setTemp(state));
+    if (!!oldStatus !== !!Number(status)) {
+      setLoading(false);
       }
   }, [oldStatus, status, statusID]);
 
@@ -34,6 +32,7 @@ const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading=false}) => {
     if (loading || status === -1) return;
     setOldStatus(!!Number(status));
     setLoading(true);
+    setTimeout(() => setLoading(false), 10000);
     let set = 0;
     if (statusDict[status] === 'Выкл') {
       set = 1;

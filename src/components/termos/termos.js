@@ -12,7 +12,7 @@ const Termos = ({className}) => {
       </div>
       <TempOut main={false} compact={true} tempID="tempRoom" />
       <Slider outID="setsTempRoom" min={10} max={40}/>
-      <ButtonOnOff setID="SetsOnKomn" />
+      <ButtonOnOff setID="setsOnKomn" />
       <div className="widget__icon">
         <img src={`images/icon_2.png`} alt="" className="widget__img"/>
       </div>

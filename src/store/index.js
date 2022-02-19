@@ -202,6 +202,7 @@ function getData(){
           shnekOrCurrent1: temp[tempDict.shnekOrCurrent1],
           setsOnGV: set[setsDict.setsOnGV],
           setsType: set[setsDict.setsType],
+          setsOnKomn: set[setsDict.setsOnKomn],
         }));
         if (!store.getState().block_setsTempCO) store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));
         if (!store.getState().block_setsShnek1) store.dispatch(setTemp({setsShnek1: set[setsDict.setsShnek1]}));
