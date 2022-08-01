@@ -68,14 +68,14 @@ const Widget = ({
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().setsType === 1 ? <AnyOut outID="shnekOrCurrent1"/> : <AnyOut outID="setsShnek1"/>}
+            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1"/>}
             <span className="widget__text_normal">%</span>
           </span>
         </span>
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().setsType === 1 ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
+            {store.getState().ventel ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
             <span className="widget__text_normal">%</span>
           </span>
         </span>

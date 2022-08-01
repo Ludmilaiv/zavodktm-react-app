@@ -21,6 +21,7 @@ const initialState = {
   funcGetData: getData,
   funcGetDevices: getDevices,
   functionSendSettings: sendSettings,
+  devType: 0,
   pauseGet: false,
   offline: false,
   name: null,
@@ -119,7 +120,6 @@ const setsDict = {
   'setsOnKomn': 42,
   'setsTempRoom': 43,
   'setsModeKomn': 45,
-  'setsType': 63
 }
 
 const connect = {
@@ -151,6 +151,7 @@ function getData(){
       }
       if (response.data.temp[0] === -1) {
         store.dispatch(setTemp({
+          devType: 0,
           errCount: 0,
           status: -1,
           tempFlow: null,
@@ -174,7 +175,6 @@ function getData(){
           setsOnGV: null,
           setsStartGor1: null,
           setsModeKomn: null,
-          setsType: null,
           block_setsTempCO: false,
           block_setsShnek1: false,
           block_setsTokShnek1: false,
@@ -184,11 +184,13 @@ function getData(){
           block_setsStartGor1: false
         })) 
       } else {
+        const devType = +response.data.type;
         const temp = response.data.temp;
         const set = response.data.set;
         const name = response.data.name;
         store.dispatch(setTemp({
           errCount: 0,
+          devType: devType,
           name: name,
           status: temp[tempDict.status],
           tempFlow: temp[tempDict.tempFlow],
@@ -201,7 +203,6 @@ function getData(){
           current: temp[tempDict.current],
           shnekOrCurrent1: temp[tempDict.shnekOrCurrent1],
           setsOnGV: set[setsDict.setsOnGV],
-          setsType: set[setsDict.setsType],
           setsOnKomn: set[setsDict.setsOnKomn],
         }));
         if (!store.getState().block_setsTempCO) store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));

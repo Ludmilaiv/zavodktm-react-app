@@ -26,6 +26,7 @@ const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading=false}) => {
     if (!!oldStatus !== !!Number(status)) {
       setLoading(false);
       }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oldStatus, status, statusID]);
 
   const startStop = () => {

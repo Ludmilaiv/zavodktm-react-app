@@ -44,7 +44,7 @@ const Kotel = ({className}) => {
         </div>
         <div className="widget__out widget__out_top">
           <span>
-            {store.getState().setsType === 1 ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1"/>}
+            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1"/>}
             <span className="widget__text_normal">%</span>
           </span>
         </div>
@@ -53,7 +53,11 @@ const Kotel = ({className}) => {
           <span className="widget__span-info widget__span-info_flex">
             <span className="widget__span-info-item widget__span-info-item_small">
               <img className="widget__span-info-img widget__span-info-img_small" src="images/amper.png" alt=""/>
-              <span className="widget__span-flex"><AnyOut outID="current"/><span className="widget__text_normal">&nbsp;A</span></span>
+              <span className="widget__span-flex">
+                <AnyOut outID="current"/>
+                {store.getState().devType === 3 ? <>&nbsp;/&nbsp;<AnyOut outID="shnekOrCurrent1"/></> : ""}
+                <span className="widget__text_normal">&nbsp;A</span>
+              </span>
             </span>
             <span className="widget__span-info-item widget__span-info-item_small">
               <img className="widget__span-info-img widget__span-info-img_small" src="images/small-deg.png" alt=""/>
@@ -74,7 +78,7 @@ const Kotel = ({className}) => {
         </div>
         <div className="widget__out widget__out_top">
           <span>
-            {store.getState().setsType === 1 ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
+            {store.getState().ventel ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
             <span className="widget__text_normal">%</span>
           </span>
         </div>
