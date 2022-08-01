@@ -9,7 +9,16 @@ const ButtonOnOff = ({setID, setVal=0, status=-1, loading=false}) => {
   const setLoading = (value) => {
     const state = {};
     state[`loading_${setID}`] = value;
+    state[`block_${setID}`] = true;
     store.dispatch(setTemp(state));
+  }
+
+
+
+  function unblock() {
+    const states = {};
+    states[`block_${setID}`] = false;
+    setTimeout(()=>{store.dispatch(setTemp(states))}, 5000);
   }
 
   useEffect(()=>{
@@ -35,7 +44,7 @@ const ButtonOnOff = ({setID, setVal=0, status=-1, loading=false}) => {
     const settings = {};
     settings[setID] = set;
     store.dispatch(setTemp(settings));
-    store.getState().functionSendSettings(setID, set);
+    store.getState().functionSendSettings(setID, set, unblock);
   }
 
   let buttonImg = '';

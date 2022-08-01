@@ -25,9 +25,8 @@ const Slider = ({value, outID, min, max}) => {
       <Button buttonSpan="-" addClass="slider__button" type="slide" style={{padding:'0 0.3vw 2vw 0'}} onClick={()=>{
         if (Number(value) > min) {
           setData(Number(value) - 1);
-          store.getState().functionSendSettings(outID, Number(value) - 1);
+          store.getState().functionSendSettings(outID, Number(value) - 1, unblock);
         }
-        unblock();
       }}/>
       <Range
         step={1}
@@ -36,8 +35,7 @@ const Slider = ({value, outID, min, max}) => {
         values={(value < min) ? [min] : ((value > max) ? [max] : [value])}
         onChange={(val) => setData(val)}
         onFinalChange={() => {
-          store.getState().functionSendSettings(outID, Number(value));
-          unblock();
+          store.getState().functionSendSettings(outID, Number(value), unblock);
         }}
         renderTrack={({ props, children }) => (
           <div
@@ -71,9 +69,8 @@ const Slider = ({value, outID, min, max}) => {
       <Button buttonSpan="+" addClass="slider__button" type="slide" onClick={()=>{
         if (Number(value) < max) {
           setData(Number(value) + 1);
-          store.getState().functionSendSettings(outID, Number(value) + 1);
+          store.getState().functionSendSettings(outID, Number(value) + 1, unblock);
         }
-        unblock();
       }}/>
     </div>
     

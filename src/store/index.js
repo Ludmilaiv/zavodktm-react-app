@@ -58,6 +58,8 @@ const initialState = {
   block_setsTempRoom: false,
   block_setsOffNasosCOGV: false,
   block_setsModeKomn: false,
+  block_setsOnKomn: false,
+  block_setsOnGV: false,
   devices: []
 };
 
@@ -127,7 +129,60 @@ const connect = {
   s11: 's12'
 }
 
-function sendSettings(settingsName, value) {
+const delaySend = {
+  setsTempCO: null,
+  setsTokShnek1: null,
+  setsShnek1: null,
+  setsVent1: null,
+  setsTempGV: null,
+  setsOffNasosCOGV: null,
+  setsTempRoom: null,
+  setsOnKomn: null,
+  setsOnGV: null,
+  setsStartGor1: null,
+  setsModeKomn: null,
+};
+
+const delayAfterSend = {
+  setsTempCO: null,
+  setsTokShnek1: null,
+  setsShnek1: null,
+  setsVent1: null,
+  setsTempGV: null,
+  setsOffNasosCOGV: null,
+  setsTempRoom: null,
+  setsOnKomn: null,
+  setsOnGV: null,
+  setsStartGor1: null,
+  setsModeKomn: null,
+};
+
+const sendStop = {
+  setsTempCO: false,
+  setsTokShnek1: false,
+  setsShnek1: false,
+  setsVent1: false,
+  setsTempGV: false,
+  setsOffNasosCOGV: false,
+  setsTempRoom: false,
+  setsOnKomn: false,
+  setsOnGV: false,
+  setsStartGor1: false,
+  setsModeKomn: false,
+};
+
+function sendSettings(settingsName, value, afterSend) {
+  clearTimeout(delayAfterSend[settingsName]);
+  if (sendStop[settingsName]) {
+    clearTimeout(delaySend[settingsName]);
+    delaySend[settingsName] = setTimeout(() => {
+      if (+store.getState()[settingsName] !== +value) return;
+      sendStop[settingsName] = false;
+      sendSettings(settingsName, value, afterSend);
+    }, 1000);
+    return;
+  }
+  sendStop[settingsName] = true;
   if (!localStorage.getItem(localStorage.getItem("user")+"defaultDev")) return;
   const id = localStorage.getItem(localStorage.getItem("user")+"defaultDev");
   const sets = {id};
@@ -136,7 +191,13 @@ function sendSettings(settingsName, value) {
   if (k in connect) {
     sets[connect[k]] = value;
   }
-  axios.post(data.setDataURL, sets);
+  axios.post(data.setDataURL, sets).then(() => {
+    if (afterSend) {
+      clearTimeout(delayAfterSend[settingsName]);
+      delayAfterSend[settingsName] = setTimeout(afterSend, 5000);
+    }
+  });
+  
 }
  
 function getData(){
@@ -202,8 +263,6 @@ function getData(){
           tempSmoke: temp[tempDict.tempSmoke],
           current: temp[tempDict.current],
           shnekOrCurrent1: temp[tempDict.shnekOrCurrent1],
-          setsOnGV: set[setsDict.setsOnGV],
-          setsOnKomn: set[setsDict.setsOnKomn],
         }));
         if (!store.getState().block_setsTempCO) store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));
         if (!store.getState().block_setsShnek1) store.dispatch(setTemp({setsShnek1: set[setsDict.setsShnek1]}));
@@ -214,6 +273,8 @@ function getData(){
         if (!store.getState().block_setsStartGor1) store.dispatch(setTemp({setsStartGor1: set[setsDict.setsStartGor1]}));
         if (!store.getState().block_setsOffNasosCOGV) store.dispatch(setTemp({setsOffNasosCOGV: set[setsDict.setsOffNasosCOGV]}));
         if (!store.getState().block_setsModeKomn) store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
+        if (!store.getState().block_setsOnGV) store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));
+        if (!store.getState().block_setsOnKomn) store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
 
       } 
     })
