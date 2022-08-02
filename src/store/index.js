@@ -171,12 +171,12 @@ const sendStop = {
   setsModeKomn: false,
 };
 
-function sendSettings(settingsName, value, afterSend) {
+function sendSettings(settingsName, value, afterSend, count=0) {
   clearTimeout(delayAfterSend[settingsName]);
+  if (+store.getState()[settingsName] !== +value) return;
   if (sendStop[settingsName]) {
     clearTimeout(delaySend[settingsName]);
     delaySend[settingsName] = setTimeout(() => {
-      if (+store.getState()[settingsName] !== +value) return;
       sendStop[settingsName] = false;
       sendSettings(settingsName, value, afterSend);
     }, 1000);
@@ -195,6 +195,12 @@ function sendSettings(settingsName, value, afterSend) {
     if (afterSend) {
       clearTimeout(delayAfterSend[settingsName]);
       delayAfterSend[settingsName] = setTimeout(afterSend, 5000);
+    }
+  })
+  .catch((error) => {
+    console.warn(error);
+    if (count < 10) {
+      setTimeout(() => {sendSettings(settingsName, value, afterSend, count + 1);}, 500);
     }
   });
   
