@@ -60,6 +60,7 @@ const initialState = {
   block_setsModeKomn: false,
   block_setsOnKomn: false,
   block_setsOnGV: false,
+  block_setsStartGor1: false,
   devices: []
 };
 
@@ -172,6 +173,7 @@ const sendStop = {
 };
 
 function sendSettings(settingsName, value, afterSend, count=0) {
+  console.log(settingsName, +store.getState()[settingsName], value);
   clearTimeout(delayAfterSend[settingsName]);
   if (+store.getState()[settingsName] !== +value) return;
   if (sendStop[settingsName]) {

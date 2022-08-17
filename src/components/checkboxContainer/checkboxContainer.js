@@ -8,10 +8,10 @@ const CheckboxContainer = ({setID, setVal=0, items, uncheck=true, id}) => {
 
   function setData(val) {
     const states = {}; 
-    store.getState().functionSendSettings(setID, val);
     states[setID] = val;
     states[`block_${setID}`] = true;
     store.dispatch(setTemp(states));
+    store.getState().functionSendSettings(setID, val);
   }
 
   function unblock() {

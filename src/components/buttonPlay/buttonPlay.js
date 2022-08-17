@@ -11,9 +11,11 @@ const statusDict = [ //справочник статусов
   "Розжиг"
 ];
 
-const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading=false}) => {
+let loadTimeout = null;
 
-  const [oldStatus, setOldStatus] = useState(!!Number(store.getState()[statusID]));
+const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading}) => {
+
+  const [oldStatus, setOldStatus] = useState(Number(store.getState()[statusID]));
 
   const setLoading = (value) => {
     const state = {};
@@ -24,24 +26,39 @@ const ButtonPlay = ({statusID, setID, setVal=0, status=-1, loading=false}) => {
   useEffect(()=>{
     if (!statusID) return;
     if (!!oldStatus !== !!Number(status)) {
+      unblock();
+      clearTimeout(loadTimeout);
       setLoading(false);
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [oldStatus, status, statusID]);
+  }, [status, statusID]);
+
+  function unblock() {
+    const states = {};
+    states[`block_${statusID}`] = false;
+    store.dispatch(setTemp(states));
+  }
+
+  const stopLoadingAfterDelay = () => {
+    loadTimeout = setTimeout(() => setLoading(false), 30000);
+    unblock();
+  }
 
   const startStop = () => {
     if (loading || status === -1) return;
-    setOldStatus(!!Number(status));
+    clearTimeout(loadTimeout);
+    setOldStatus(Number(status));
     setLoading(true);
-    setTimeout(() => setLoading(false), 10000);
+    
     let set = 0;
     if (statusDict[status] === 'Выкл') {
       set = 1;
     }
     const settings = {};
     settings[setID] = set;
+    settings[`block_${setID}`] = true;
     store.dispatch(setTemp(settings));
-    store.getState().functionSendSettings(setID, set);
+    store.getState().functionSendSettings(setID, set, stopLoadingAfterDelay);
   }
 
   let buttonImg = '';
