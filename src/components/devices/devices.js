@@ -107,9 +107,7 @@ const Devices = ({showActivePage, devices=[]}) => {
     <>
       <ul className="devices">
         {devices.map(dev => (
-          <li key={dev.id} className={`devices__item ${(dev.temp===-3000)?"devices__item_offline":""}`}>
-            <Device dev={dev} stopGet={stopGet} startGet={startGet} showActivePage={showActivePage} addPopup={addPopup}/>
-          </li>
+          <Device dev={dev} key={dev.id} stopGet={stopGet} startGet={startGet} showActivePage={showActivePage} addPopup={addPopup}/>
         ))}
       </ul>
       <Button addClass="devices__button" buttonSpan="Добавить устройство" type="popup" onClick={()=>addPopupShow(true)}/>

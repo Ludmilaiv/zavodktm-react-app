@@ -3,6 +3,8 @@ import Popup from "../popup"
 import axios from "axios";
 import data from "../../data";
 import store from "../../store";
+import classNames from "classnames";
+import {useSwipeable} from "react-swipeable";
 
 const Device = ({dev, stopGet, startGet, showActivePage}) => {
 
@@ -11,6 +13,7 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
   const [errPopup, errPopupShow] = useState(false);
   const [editPopup, editPopupShow] = useState(false);
   const [newName, newNameSet] = useState(dev.name);
+  const [mode, modeSet] = useState("normal");
 
   const getDevices = store.getState().funcGetDevices;
 
@@ -69,23 +72,33 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
     newNameSet(event.target.value);
   }
 
+  const changeMode = () => {
+    modeSet(mode === "normal" ? "edit" : "normal");
+  }
+  
+  const handlers = useSwipeable({
+    onSwiped: () => changeMode(),
+  });
+
   return (
-    <>
-      <div className="devices__info">
-        <span>{dev.name}</span> 
-        <span>{(dev.temp===-3000)?"не в сети":((dev.temp===-1270 || dev.temp===-1000)?"--": ((dev.temp / 10).toFixed(1)+" °C"))}</span></div>
-      <div className="devices__control">
-        <div className={`devices__del  button button_normal`} onClick={()=>delPopupShow(true)}></div>
-        <div className={`devices__edit  button button_normal`} onClick={()=>editPopupShow(true)}></div>
-        <div className={`devices__look  button button_normal`} onClick={()=>lookDevice(dev.name, dev.id)}></div>
+    <li {...handlers} className={`devices__item ${(dev.temp===-3000)?"devices__item_offline":""}`}>
+      <div className={classNames(["devices__info", mode])} onClick={()=>mode==="normal" ? lookDevice(dev.name, dev.id) : null}>
+        <div>{dev.name}</div> 
+        {(dev.temp===-3000)?<div className="offline-circle"></div>
+        : ((dev.temp===-1270 || dev.temp===-1000)
+        ? <div className="devices__info-temp"><div className="online-circle"></div><span>--</span></div>
+        : <div className="devices__info-temp"><div className="online-circle"></div>{(dev.temp / 10).toFixed(1)+" °C"}</div>)}
+      </div>
+      <div className={classNames(["devices__control", mode])}>
+        <div className={`devices__del  button button_normal`} onClick={()=>{delPopupShow(true); changeMode()}}></div>
+        <div className={`devices__edit  button button_normal`} onClick={()=>{editPopupShow(true); changeMode()}}></div>
+        <div className={`devices__close  button button_normal`} onClick={changeMode}></div>
       </div>
       {(delPopup)?<Popup popupOK={()=>delDevice(dev.id)} startProcess={()=>{startGet(); getDevices()}} stopProcess={stopGet} popupShow={delPopupShow} text={`Вы уверены, что хотите удалить устройство "${dev.name}"?`}/>:""}
       {(doneDelPopup)?<Popup info="true" time="3000" startProcess={()=>{startGet(); getDevices()}} stopProcess={stopGet} popupShow={doneDelPopupShow} text={`Устройство "${dev.name}" успешно удалено`}/>:""}
       {(errPopup)?<Popup info="true" time="3000" startProcess={()=> {startGet(); getDevices()}} stopProcess={stopGet} popupShow={errPopupShow} text="Что-то пошло не так. Проверьте интернет-подключение и попробуйте ещё раз"/>:""}
       {(editPopup)?<Popup popupOK={()=>renameDevice(dev.id,newName)} startProcess={()=> {startGet(); getDevices()}} stopProcess={stopGet} popupShow={editPopupShow} text={editHTML}/>:""}
-      
-      
-    </>
+    </li>
 )}
     
 
