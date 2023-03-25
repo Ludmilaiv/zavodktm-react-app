@@ -50,8 +50,12 @@ const initialState = {
   setsModeKomn: null,
   loading_status: false,
   loading_setsStartGor1: false,
+  loading_setsStartGor2: false,
+  block_setsStartGor1: false,
+  block_setsStartGor2: false,
   block_setsTempCO: false,
   block_setsShnek1: false,
+  block_setsShnek2: false,
   block_setsTokShnek1: false,
   block_setsVent1: false,
   block_setsTempGV: false,
@@ -74,6 +78,7 @@ function getDevices() {
   .then(function (response) {
     if (typeof response.data === "object") {
       store.dispatch(setDevs({offline: false}));
+      console.log(response.data);
       store.dispatch(setDevs(
         {
           errCount: 0,
@@ -114,9 +119,13 @@ const tempDict = {
 const setsDict = {
   'setsTempCO': 1,
   'setsShnek1': 4,
+  'setsShnek2': 5,
   'setsTokShnek1': 8,
+  'setsTokShnek2': 9,
   'setsVent1': 10,
+  'setsVent2': 11,
   'setsStartGor1': 20,
+  'setsStartGor2': 21,
   'setsOnGV': 38,
   'setsTempGV': 39,
   'setsOffNasosCOGV': 41,
@@ -125,22 +134,20 @@ const setsDict = {
   'setsModeKomn': 45,
 }
 
-const connect = {
-  s5: 's6',
-  s11: 's12'
-}
-
 const delaySend = {
   setsTempCO: null,
   setsTokShnek1: null,
   setsShnek1: null,
+  setsShnek2: null,
   setsVent1: null,
+  setsVent2: null,
   setsTempGV: null,
   setsOffNasosCOGV: null,
   setsTempRoom: null,
   setsOnKomn: null,
   setsOnGV: null,
   setsStartGor1: null,
+  setsStartGor2: null,
   setsModeKomn: null,
 };
 
@@ -190,9 +197,6 @@ function sendSettings(settingsName, value, afterSend, count=0) {
   const sets = {id};
   const k = `s${setsDict[settingsName] + 1}`;
   sets[k] = value;
-  if (k in connect) {
-    sets[connect[k]] = value;
-  }
   axios.post(data.setDataURL, sets).then(() => {
     if (afterSend) {
       clearTimeout(delayAfterSend[settingsName]);
@@ -221,6 +225,7 @@ function getData(){
       if (response.data.temp[0] === -1) {
         store.dispatch(setTemp({
           devType: 0,
+          changed: 0,
           errCount: 0,
           status: -1,
           tempFlow: null,
@@ -235,8 +240,11 @@ function getData(){
           ventel: null,
           setsTempCO: null,
           setsTokShnek1: null,
+          setsTokShnek2: null,
           setsShnek1: null,
+          setsShnek2: null,
           setsVent1: null,
+          setsVent2: null,
           setsTempGV: null,
           setsOffNasosCOGV: null,
           setsTempRoom: null,
@@ -254,11 +262,13 @@ function getData(){
         })) 
       } else {
         const devType = +response.data.type;
+        const changed = +response.data.changed;
         const temp = response.data.temp;
         const set = response.data.set;
         const name = response.data.name;
         store.dispatch(setTemp({
           errCount: 0,
+          changed: changed,
           devType: devType,
           name: name,
           status: temp[tempDict.status],
@@ -274,11 +284,14 @@ function getData(){
         }));
         if (!store.getState().block_setsTempCO) store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));
         if (!store.getState().block_setsShnek1) store.dispatch(setTemp({setsShnek1: set[setsDict.setsShnek1]}));
+        if (!store.getState().block_setsShnek2) store.dispatch(setTemp({setsShnek2: set[setsDict.setsShnek2]}));
         if (!store.getState().block_setsTokShnek1) store.dispatch(setTemp({setsTokShnek1: set[setsDict.setsTokShnek1]}));
         if (!store.getState().block_setsVent1) store.dispatch(setTemp({setsVent1: set[setsDict.setsVent1]}));
+        if (!store.getState().block_setsVent2) store.dispatch(setTemp({setsVent2: set[setsDict.setsVent2]}));
         if (!store.getState().block_setsTempGV) store.dispatch(setTemp({setsTempGV: set[setsDict.setsTempGV]}));
         if (!store.getState().block_setsTempRoom) store.dispatch(setTemp({setsTempRoom: set[setsDict.setsTempRoom]}));
         if (!store.getState().block_setsStartGor1) store.dispatch(setTemp({setsStartGor1: set[setsDict.setsStartGor1]}));
+        if (!store.getState().block_setsStartGor2) store.dispatch(setTemp({setsStartGor2: set[setsDict.setsStartGor2]}));
         if (!store.getState().block_setsOffNasosCOGV) store.dispatch(setTemp({setsOffNasosCOGV: set[setsDict.setsOffNasosCOGV]}));
         if (!store.getState().block_setsModeKomn) store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
         if (!store.getState().block_setsOnGV) store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));

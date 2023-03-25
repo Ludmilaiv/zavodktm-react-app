@@ -4,47 +4,40 @@ import store  from '../../store';
 import { setTemp } from '../../actions';
 import { useEffect } from "react";
 
-const ButtonOnOff = ({setID, setVal=0, status=-1, loading=false}) => {
+const ButtonOnOff = ({setID, setVal=0, status=-1, changed, loading=false}) => {
 
   const setLoading = (value) => {
     const state = {};
     state[`loading_${setID}`] = value;
-    state[`block_${setID}`] = true;
+    state[`block_${setID}`] = value;
+    if (value) state.changed = '1';
     store.dispatch(setTemp(state));
   }
 
-
-
-  function unblock() {
-    const states = {};
-    states[`block_${setID}`] = false;
-    setTimeout(()=>{store.dispatch(setTemp(states))}, 5000);
-  }
+  let loadTimeout = null;
 
   useEffect(()=>{
-    const stopLoading = () => {
-      const state = {};
-      state[`loading_${setID}`] = false;
-      store.dispatch(setTemp(state));
-    }
-    if (loading) {
-      setTimeout(stopLoading, 5000);
-    }
-    return () => clearTimeout(stopLoading);
-    
-  }, [setID, loading]);
+    if (+changed === 0) {
+      clearTimeout(loadTimeout);
+      setLoading(false);
+      }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changed]);
 
+  const stopLoadingAfterDelay = () => {
+    loadTimeout = setTimeout(() => setLoading(false), 30000);
+  }
   const onOff = () => {
     if (loading || status === -1) return;
     setLoading(true);
     let set = 0;
-    if (Number(setVal) === 0) {
+    if (+setVal === 0) {
       set = 1;
     }
     const settings = {};
     settings[setID] = set;
     store.dispatch(setTemp(settings));
-    store.getState().functionSendSettings(setID, set, unblock);
+    store.getState().functionSendSettings(setID, set, stopLoadingAfterDelay);
   }
 
   let buttonImg = '';
@@ -52,10 +45,10 @@ const ButtonOnOff = ({setID, setVal=0, status=-1, loading=false}) => {
   const addClass = 'button_play';
   if (loading) {
     buttonImg = "images/spiner.gif";
-  } else if (status === -1) {
+  } else if (+status === -1) {
       buttonImg = "images/offline.png";
       style.backgroundColor = "#696969";
-    } else if (Number(setVal) === 0) {
+    } else if (+setVal === 0) {
       buttonImg = "images/power.png";
     } else {
       buttonImg = "images/power.png";
@@ -74,7 +67,8 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     status: state.status,
     setVal: state[ownProps.setID],
-    loading: state[`loading_${ownProps.setID}`]
+    loading: state[`loading_${ownProps.setID}`],
+    changed: state['changed']
   }
 }
 

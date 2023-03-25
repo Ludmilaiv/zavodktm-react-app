@@ -44,7 +44,7 @@ const Kotel = ({className}) => {
         </div>
         <div className="widget__out widget__out_top">
           <span>
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1"/>}
+           <AnyOut outID="setsShnek1"/>
             <span className="widget__text_normal">%</span>
           </span>
         </div>
