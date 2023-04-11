@@ -29,7 +29,7 @@ const data = {
     tempRoom: 0.1,
     tempOutside: 0.1,
     tempSmoke: 0.1,
-    current: 0.01,
+    current: 0.1,
     shnekOrCurrent1: 0.01
   }
 }

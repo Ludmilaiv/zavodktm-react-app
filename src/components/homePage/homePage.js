@@ -1,8 +1,10 @@
 import Widget from "../widget";
 import store from "../../store";
 import { useEffect } from "react";
+import { connect } from 'react-redux';
+import { Oval } from  'react-loader-spinner'
 
-const HomePage = (props) => {
+const HomePage = ({devType=0, status=0}) => {
   const getData = store.getState().funcGetData;
   useEffect(() => {
     const getDataInterval = setInterval(getData,3000)
@@ -10,15 +12,45 @@ const HomePage = (props) => {
       clearInterval(getDataInterval);
     }
   });
+
+  const loadingViev = <div className="content__page"><Oval
+    height={100}
+    width={100}
+    color="#ff8000"
+    wrapperStyle={{}}
+    wrapperClass=""
+    visible={true}
+    ariaLabel='loading'
+    secondaryColor="#FFC400"
+    strokeWidth={5}
+    strokeWidthSecondary={5}
+  /></div>
+
+  const oneSheckViev = <div className="content__page">
+    <Widget typeClass="main" tempID="tempFlow" setID="setsTempCO" icon="main" devType={devType}/>
+    <Widget typeClass="sup" tempID="tempBolerOrShnek1" setID="setsTempGV" icon="1"/>
+    <Widget typeClass="sup" tempID="tempRoom" setID="setsTempRoom" icon="2"/>
+  </div>
+
+  const twoSheckViev = <div className="content__page">
+    <Widget typeClass="main-1" tempID="tempFlow" setID="setsTempCO" icon="main" devType={devType}/>
+    <Widget typeClass="sup" tempID="tempRoom" setID="setsTempRoom" icon="2"/>
+  </div>
   
   getData();
   return (
-    <div className="content__page">
-      <Widget typeClass="main" tempID="tempFlow" setID="setsTempCO" icon="main"/>
-      <Widget typeClass="sup" tempID="tempBolerOrShnek1" setID="setsTempGV" icon="1"/>
-      <Widget typeClass="sup" tempID="tempRoom" setID="setsTempRoom" icon="2"/>
-    </div>
+    (devType === 0 && status !== -1) ? loadingViev 
+      : (devType === 3 && status !== -1) ? twoSheckViev
+      : oneSheckViev
   )
 }
 
-export default HomePage
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    devType: state.devType,
+    status: state.status
+  }
+}
+  
+export default connect(mapStateToProps)(HomePage)

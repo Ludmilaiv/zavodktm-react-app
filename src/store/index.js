@@ -64,7 +64,6 @@ const initialState = {
   block_setsModeKomn: false,
   block_setsOnKomn: false,
   block_setsOnGV: false,
-  block_setsStartGor1: false,
   devices: []
 };
 
@@ -216,6 +215,7 @@ function getData(){
   if (localStorage.getItem(localStorage.getItem("user")+"defaultDev")) {
     axios.post(data.getDataURL, {id: localStorage.getItem(localStorage.getItem("user")+"defaultDev")})
     .then(function(response) {
+      console.log(response.data);
       if (typeof response.data !== 'object') {
         store.dispatch(setTemp({errCount: store.getState().errCount + 1}));
         if (store.getState().errCount > 3) {
@@ -266,6 +266,7 @@ function getData(){
         const temp = response.data.temp;
         const set = response.data.set;
         const name = response.data.name;
+        console.log(devType);
         store.dispatch(setTemp({
           errCount: 0,
           changed: changed,

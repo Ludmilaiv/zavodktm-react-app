@@ -1,10 +1,8 @@
-//import logo from './logo.svg';
 import './App.scss';
 import Header from './components/header';
 import Content from './components/content';
 import Footer from './components/footer';
 import React, { useState, useEffect } from 'react';
-//import axios from 'axios';
 import store from "./store";
 import { setDevs } from './actions';
 import Popup from "./components/popup";

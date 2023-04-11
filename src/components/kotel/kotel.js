@@ -54,14 +54,12 @@ const Kotel = ({className}) => {
             <span className="widget__span-info-item widget__span-info-item_small">
               <img className="widget__span-info-img widget__span-info-img_small" src="images/amper.png" alt=""/>
               <span className="widget__span-flex">
-                <AnyOut outID="current"/>
-                {store.getState().devType === 3 ? <>&nbsp;/&nbsp;<AnyOut outID="shnekOrCurrent1"/></> : ""}
-                <span className="widget__text_normal">&nbsp;A</span>
+                <AnyOut outID="current" units="&nbsp;A"/>
               </span>
             </span>
             <span className="widget__span-info-item widget__span-info-item_small">
               <img className="widget__span-info-img widget__span-info-img_small" src="images/small-deg.png" alt=""/>
-              <span className="widget__span-flex"><AnyOut outID="tempShnekOrShek2"/><span className="widget__text_normal">&deg;C</span></span>
+              <span className="widget__span-flex"><AnyOut outID="tempShnekOrShek2" units="&deg;C"/></span>
             </span>
           </span>
         </div>

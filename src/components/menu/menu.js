@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-const Menu = ({showActivePage}) => {
+const Menu = ({showActivePage, devType = 0}) => {
 
   const [activeID, setActiveItem] = useState("home");
 
-  const items = [
-    {title: "Главная", imgClass: "_home", id:"home"},
-    {title: "Котёл", imgClass: "_kotel", id:"kotel"},
-    {title: "Бойлер", imgClass: "_boler", id:"boler"},
-    {title: "Термостат", imgClass: "_termostat", id:"termos"},
-    //{title: "Настройки", imgClass: "_settings", id:"settings"},
-  ]
+  const items = devType === 0 ? []
+   : devType === 3 ? [
+      {title: "Главная", imgClass: "_home", id:"home"},
+      {title: "Котёл", imgClass: "_kotel", id:"kotel"},
+      {title: "Настройки", imgClass: "_settings", id:"settings"},
+      {title: "Термостат", imgClass: "_termostat", id:"termos"},
+    ]
+    : [
+      {title: "Главная", imgClass: "_home", id:"home"},
+      {title: "Котёл", imgClass: "_kotel", id:"kotel"},
+      {title: "Бойлер", imgClass: "_boler", id:"boler"},
+      {title: "Термостат", imgClass: "_termostat", id:"termos"},
+    ]
 
 
   return (
@@ -36,6 +43,12 @@ const Menu = ({showActivePage}) => {
   }
 }
 
-  
 
-export default Menu
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    devType: state.devType
+  }
+}
+  
+export default connect(mapStateToProps)(Menu)
