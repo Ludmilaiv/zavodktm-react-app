@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 let loadTimeout = null;
 
-const ButtonPlay = ({setID, loading, changed, setVal, status=-1}) => {
+const ButtonPlay = ({addClass='button_play', setID, loading, changed, setVal, status=-1}) => {
 
   const setLoading = (value) => {
     const state = {};
@@ -45,7 +45,6 @@ const ButtonPlay = ({setID, loading, changed, setVal, status=-1}) => {
 
   let buttonImg = '';
   let style = {};
-  const addClass = 'button_play';
   if (loading) {
     buttonImg = "images/spiner.gif";
   } else if (+status === -1) {

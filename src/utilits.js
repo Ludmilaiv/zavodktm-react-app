@@ -1,0 +1,1 @@
+export const truncStr = (s, w) => s && s.length > w ? s.slice(0, w) + "..." : s;

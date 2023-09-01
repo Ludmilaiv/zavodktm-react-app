@@ -99,7 +99,7 @@ const Devices = ({showActivePage, devices=[]}) => {
     <label className="form__label" htmlFor="devID">Введите идентификатор устройства</label>
     <input value={id} placeholder='ID устройства' onChange={handleChangeId} className={`form__input ${errId}`} type="text" name="devID"/>
     <label className="form__label" htmlFor="devName">Дайте имя своему устройству</label>
-    <input value={name} placeholder='Наример,"Котёл в гараже"' onChange={handleChangeName} className={`form__input ${errName}`} type="text" name="devName"/>
+    <input maxLength={30} value={name} placeholder='Наример,"Котёл в гараже"' onChange={handleChangeName} className={`form__input ${errName}`} type="text" name="devName"/>
     <div className="form__label form__error">{errMessage}</div>
   </div>
 

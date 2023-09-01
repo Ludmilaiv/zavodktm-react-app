@@ -1,0 +1,40 @@
+.slider {
+  &_position {
+    display: flex;
+    align-items: center;
+    margin: 3vh 2vw;
+  }
+
+  &__button {
+    padding: 0;
+    color: #fff;
+    height: 9vw; 
+    width: 9vw;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10vw;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  &_vertical-left {
+    flex-direction: column-reverse;
+    position: absolute;
+    left: 3.5vw;
+    top: 3.5vw;
+    bottom: 3vw;
+    margin: 0;
+  }
+
+  &_vertical-right {
+    flex-direction: column-reverse;
+    position: absolute;
+    right: 3.5vw;
+    top: 3.5vw;
+    bottom: 3vw;
+    margin: 0;
+  }
+
+}

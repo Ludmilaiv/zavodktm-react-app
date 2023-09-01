@@ -4,6 +4,7 @@ import AuthorPage from "../authorPage";
 import DevicesPage from "../devicesPage";
 import BolerPage from "../bolerPage";
 import TermosPage from "../termosPage";
+import SettingsPage from "../settingsPage";
 
 const Content = ({showActivePage, activePage, getDevices}) => {
   return (
@@ -13,12 +14,14 @@ const Content = ({showActivePage, activePage, getDevices}) => {
                 activePage==="devices"?(<DevicesPage getDevices={getDevices} showActivePage={showActivePage}/>): (
                   activePage === "kotel" ? (<KotelPage/>): (
                     activePage === 'boler' ? (<BolerPage/>) : (
-                      activePage === 'termos' ? (<TermosPage/>) : ''
+                      activePage === 'termos' ? (<TermosPage/>) : (
+                        activePage === 'settings' ? (<SettingsPage/>) : ''
                     )
                   )
                 )
               )
             )
+          )
         }
        
         

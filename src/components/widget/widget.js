@@ -4,6 +4,7 @@ import Devices from '../devices';
 import AnyOut from "../anyOut";
 import Kotel from "../kotel";
 import Boler from '../boler';
+import Settings from '../settings';
 import Termos from '../termos';
 import store from "../../store";
 
@@ -47,6 +48,13 @@ const Widget = ({
   if (typeClass === "boler") {
     return (
       <Boler className={className}/>
+    )
+  }
+
+  // Для виджета на странице настроек двушнекового котла (settings)
+  if (typeClass === "settings") {
+    return (
+      <Settings className={className}/>
     )
   }
 

@@ -5,6 +5,7 @@ import data from "../../data";
 import store from "../../store";
 import classNames from "classnames";
 import {useSwipeable} from "react-swipeable";
+import {truncStr} from "../../utilits";
 
 const Device = ({dev, stopGet, startGet, showActivePage}) => {
 
@@ -65,7 +66,7 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
   const editHTML = 
   <div className="form popup__form form_flex">
     <label className="form__label" htmlFor="nevDevName">Переименовать устройство</label>
-    <input value={newName} onChange={handleChangeNewName} className="form__input" type="text" name="nevDevName"/>
+    <input maxLength={30} value={newName} onChange={handleChangeNewName} className="form__input" type="text" name="nevDevName"/>
   </div>
 
   function handleChangeNewName(event) {
@@ -83,7 +84,7 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
   return (
     <li {...handlers} className={`devices__item ${(dev.temp===-3000)?"devices__item_offline":""}`}>
       <div className={classNames(["devices__info", mode])} onClick={()=>mode==="normal" ? lookDevice(dev.name, dev.id) : null}>
-        <div>{dev.name}</div> 
+        <div>{truncStr(dev.name,30)}</div> 
         {(dev.temp===-3000)?<div className="offline-circle"></div>
         : ((dev.temp===-1270 || dev.temp===-1000)
         ? <div className="devices__info-temp"><div className="online-circle"></div><span>--</span></div>

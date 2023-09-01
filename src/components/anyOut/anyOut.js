@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import data from "../../data";
 import store from "../../store";
+import {truncStr} from "../../utilits";
 
 function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1}) {
 
@@ -51,7 +52,7 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1}) 
 
   return (
     <span style={style}> 
-      {(out && +out !== -127 && +out !== -100) ? out : def}
+      {(out && +out !== -127 && +out !== -100) ? truncStr(out,30) : def}
       <span className="widget__text_normal">{units}</span> 
       {outID2 && 
       <><span className="widget__text_normal" style={{fontSize: "2rem"}}>&nbsp;|&nbsp;</span>

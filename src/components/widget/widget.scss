@@ -20,6 +20,12 @@
     flex-direction: column;
     justify-content: space-between;
   }
+  &_settings {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   &_boler {
     flex: 1 1;
     display: flex;
@@ -75,6 +81,28 @@
         font-size: 19vw;
       }
     }
+    &_corner-bottom {
+      &-left {
+        top: auto;
+        left: 1vw;
+        bottom: 0;
+        border-top: $border;
+        border-right: $border;
+        border-left: 0;
+        border-bottom: 0;
+        border-radius: 0 $border-radius 0 0;
+      }
+      &-right {
+        top: auto;
+        right: 1vw;
+        bottom: 0;
+        border-top: $border;
+        border-right: 0;
+        border-left: $border;
+        border-bottom: 0;
+        border-radius: $border-radius 0 0 0;
+      } 
+    }
     &_center {
       color: $font-color-main;
       text-align: right;
@@ -114,6 +142,30 @@
         height: calc(var(--vh, 1vh) * 30);
       }
     }
+    &_double {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      bottom: 2.5vw;
+      left: 50%;
+      top: 19vw;
+      width: 50vw;
+      margin-left: -25vw;
+      color: $font-color-main;
+      font-size: 13vw;
+      text-align: center;
+    }
+    &-section {
+      width: 50%;
+      position: relative;
+      flex-basis: 50%;
+      flex-grow: 1;
+      flex-shrink: 0;
+      padding: 20% 2vw;
+      &_left {
+        border-right: $border;
+      }
+    }
     &_bottom-center {
       height: 5vh;
       height: calc(var(--vh, 1vh) * 5);
@@ -130,6 +182,25 @@
       text-align: center;
       color: $font-color-main;
     }
+
+    &_center-center {
+      height: 30vh;
+      height: calc(var(--vh, 1vh) * 30);
+      width: 100%;
+      position: absolute;
+      padding: 1vh;
+      padding: calc(var(--vh, 1vh) * 1);
+      top: 14vh;
+      top: calc(var(--vh, 1vh) * 14);
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      text-align: center;
+      color: $font-color-main;
+    }
+    
     &_top {
       color: $font-color-main;
       text-align: right;
@@ -157,6 +228,21 @@
         bottom: 15vh;
         bottom: calc(var(--vh, 1vh) * 15);
       }
+    }
+    &_row {
+      width: 70vw;
+      height: 8vh;
+      height: calc(var(--vh, 1vh) * 7);
+      position: absolute;
+      bottom: 0;
+      right: 3vw;
+      margin: 1vh;
+      margin: calc(var(--vh, 1vh) * 1);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      text-align: center;
+      color: $font-color-main;
     }
     font-family: $LCD;
   }
@@ -236,7 +322,7 @@
     &_flex {
       display: flex !important;
       width: 100% !important;
-      justify-content: right !important;
+      justify-content: flex-end !important;
       &>span>span:last-child {
         min-width: 4.5em;
       }
@@ -244,6 +330,26 @@
         min-width: 4.5em;
       }
     }
+
+    &_column {
+      display: flex !important;
+      flex-direction: column;
+      width: 100% !important;
+      justify-content: flex-start !important;
+      align-items: center;
+      height: 100%;
+      &>span>span:last-child {
+        min-width: 4.5em;
+      }
+      &>span>span:last-child {
+        min-width: 4.5em;
+      }
+    }
+
+    &_big {
+      font-size: 10vw !important;
+    }
+
     &_small {
       font-size: 6.5vw !important;
     }
@@ -279,9 +385,36 @@
       border-bottom: $border !important;
       border-radius: 0 0 $border-radius 0 !important;
     }
+    &_top-center {
+      display: flex;
+      padding-left: 2vw;
+      padding-right: 2vw;
+      justify-content: space-between;
+      bottom: auto !important;
+      top: 2vw !important;
+      left: 50%;
+      width: 50vw;
+      margin-left: -25vw;
+      border-top: none !important;
+      border-bottom: $border !important;
+      border-left: $border !important;
+      border-radius: 0 0 $border-radius $border-radius !important;
+    }
+    &-text {
+      font-family: $main-font;
+      font-size: 2em;
+      color: $font-color-main;
+      font-weight: bold;
+      font-style: italic;
+      align-self: flex-end;
+    }
   }
   &__img {
     height: 65%;
+    &_big {
+      margin-bottom: 2vh;
+      height: 7vh;
+    }
   }
   &__text_normal {
     font-family: $main-font;

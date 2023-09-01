@@ -1,11 +1,12 @@
 
-import { Range } from 'react-range';
+import { Direction, Range } from 'react-range';
 import { connect } from 'react-redux';
 import Button from "../button";
 import { setTemp } from '../../actions';
 import store from '../../store';
+import classNames from 'classnames';
 
-const Slider = ({value, outID, min, max}) => {
+const Slider = ({classPrefix=null, value, outID, min, max}) => {
 
   function setData(val) {
     const states = {}; 
@@ -21,7 +22,7 @@ const Slider = ({value, outID, min, max}) => {
   }
 
   return (
-    <div className="slider slider_position">
+    <div className={classNames("slider", "slider_position", classPrefix && "slider_" + classPrefix)}>
       <Button buttonSpan="-" addClass="slider__button" type="slide" style={{padding:'0 0.3vw 2vw 0'}} onClick={()=>{
         if (Number(value) > min) {
           setData(Number(value) - 1);
@@ -29,6 +30,7 @@ const Slider = ({value, outID, min, max}) => {
         }
       }}/>
       <Range
+        direction={classPrefix ? Direction.Up: Direction.Right}
         step={1}
         min={min}
         max={max}
@@ -42,10 +44,13 @@ const Slider = ({value, outID, min, max}) => {
             {...props}
             style={{
               ...props.style,
-              height: '7px',
+              width: classPrefix ? '7px' : '',
+              height: classPrefix ? '70%' : '7px',
               flexGrow: '1',
-              marginLeft: '3vw',
-              marginRight: '3vw',
+              marginLeft: !classPrefix ? '3vw' : '',
+              marginRight: !classPrefix ? '3vw' : '',
+              marginTop: classPrefix ? '3vw' : '',
+              marginBottom: classPrefix ? '3vw' : '',
               backgroundColor: '#fff'
             }}
           >
@@ -57,8 +62,8 @@ const Slider = ({value, outID, min, max}) => {
             {...props}
             style={{
               ...props.style,
-              height: '6vw',
-              width: '4vw',
+              height: classPrefix ? '4vw' : '6vw',
+              width: classPrefix ? '6vw' : '4vw',
               backgroundColor: '#000',
               border: '1px solid white',
               outline: 'none'
