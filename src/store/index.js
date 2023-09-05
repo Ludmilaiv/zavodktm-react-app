@@ -26,7 +26,7 @@ const initialState = {
   offline: false,
   name: null,
   errCount: 0,
-  status: -1,
+  status: 0,
   tempFlow: null,
   tempReturn: null,
   tempBolerOrShnek1: null,
@@ -222,6 +222,7 @@ function getData(){
           store.dispatch(setDevs({offline: true}));
         } 
       }
+      console.log(response.data.temp[0]);
       if (response.data.temp[0] === -1) {
         store.dispatch(setTemp({
           devType: 0,
@@ -266,7 +267,6 @@ function getData(){
         const temp = response.data.temp;
         const set = response.data.set;
         const name = response.data.name;
-        console.log(devType);
         store.dispatch(setTemp({
           errCount: 0,
           changed: changed,

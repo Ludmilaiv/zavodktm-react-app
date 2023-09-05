@@ -7,6 +7,8 @@ import classNames from "classnames";
 import {useSwipeable} from "react-swipeable";
 import {truncStr} from "../../utilits";
 
+let timeout = null;
+
 const Device = ({dev, stopGet, startGet, showActivePage}) => {
 
   const [delPopup, delPopupShow] = useState(false);
@@ -76,13 +78,25 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
   const changeMode = () => {
     modeSet(mode === "normal" ? "edit" : "normal");
   }
-  
-  const handlers = useSwipeable({
-    onSwiped: () => changeMode(),
+ 
+  const swipeHandlers = useSwipeable({
+    delta: 60,
+    onSwipedLeft: () => changeMode(),
+    onSwipedRight: () => changeMode(),
   });
 
+  const longPressHendlers = {
+    onTouchStart: () => {
+      console.log('down');
+      timeout = setTimeout(() => modeSet("edit"), 500);
+    },
+    onTouchEnd: () => clearTimeout(timeout),
+    onTouchCancel: () => clearTimeout(timeout),
+    onTouchMove: () => clearTimeout(timeout)
+  }
+  
   return (
-    <li {...handlers} className={`devices__item ${(dev.temp===-3000)?"devices__item_offline":""}`}>
+    <li {...longPressHendlers} {...swipeHandlers} className={`devices__item ${(dev.temp===-3000)?"devices__item_offline":""}`}>
       <div className={classNames(["devices__info", mode])} onClick={()=>mode==="normal" ? lookDevice(dev.name, dev.id) : null}>
         <div>{truncStr(dev.name,30)}</div> 
         {(dev.temp===-3000)?<div className="offline-circle"></div>
