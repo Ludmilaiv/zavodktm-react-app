@@ -138,8 +138,8 @@
       text-align: center;
       color: $font-color-main;
       &_long {
-        height: 30vh;
-        height: calc(var(--vh, 1vh) * 30);
+        height: 29vh;
+        height: calc(var(--vh, 1vh) * 29);
       }
     }
     &_double {
