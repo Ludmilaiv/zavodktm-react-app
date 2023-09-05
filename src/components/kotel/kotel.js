@@ -68,7 +68,7 @@ const Kotel = ({className, devType=0, status=0}) => {
           <span className="widget__span-info-item widget__span-info-item_small">
             <img className="widget__span-info-img widget__span-info-img_small" src="images/amper.png" alt=""/>
             <span className="widget__span-flex">
-              <AnyOut outID="current" units="&nbsp;A"/>
+              <AnyOut coef={0.01} outID="current" units="&nbsp;A"/>
             </span>
           </span>
           <span className="widget__span-info-item widget__span-info-item_small">
