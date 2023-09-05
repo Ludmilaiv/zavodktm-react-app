@@ -87,7 +87,6 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
 
   const longPressHendlers = {
     onTouchStart: () => {
-      console.log('down');
       timeout = setTimeout(() => modeSet("edit"), 500);
     },
     onTouchEnd: () => clearTimeout(timeout),
