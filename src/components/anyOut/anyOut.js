@@ -3,7 +3,7 @@ import data from "../../data";
 import store from "../../store";
 import {truncStr} from "../../utilits";
 
-function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1}) {
+function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1, round=-1, notDecrease=false}) {
 
   if (outID === "status") {
     const statusDict = [ //справочник статусов
@@ -17,13 +17,18 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1}) 
     )
   }
 
+  coef = (coef === -1) ? data.coefDict[outID] || 1: coef;
+  console.log(outID, coef);
+
+  const fl = x => ( (x && x.toString().includes('.')) ? (x.toString().split('.').pop().length) : 0 );
+
+  const fix = (round === -1) ? fl(coef) : round; 
+
   if (out===null) {
     out = "--";
-  } else if (data.coefDict[outID]) {
-    const fl = x => ( (x.toString().includes('.')) ? (x.toString().split('.').pop().length) : 0 );
-    out = out * data.coefDict[outID];
-    const fix = (coef === -1) ? data.coefDict[outID] : coef;
-    out = out.toFixed(fl(fix));
+  } else if (/^[-]?\d+$/.test(out)){
+    out = out * coef;
+    out = out.toFixed(fix);
     if (out.split(".")[0] === "-100" || out.split(".")[0] === "-127") {
       out = "--";
     } else if (outID === "shnekOrCurrent1" && store.getState().setsType === 1) {
@@ -34,11 +39,9 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1}) 
   if (outID2) {
     if (out2===null) {
       out2 = "--";
-    } else if (data.coefDict[outID2]) {
-      const fl = x => ( (x.toString().includes('.')) ? (x.toString().split('.').pop().length) : 0 );
-      out2 = out2 * data.coefDict[outID2];
-      const fix = (coef === -1) ? data.coefDict[outID2] : coef;
-      out2 = out2.toFixed(fl(fix));
+    } else if (/^[-]?\d+$/.test(out2)){
+      out2 = out2 * coef;
+      out2 = out2.toFixed(fix);
       if (out2.split(".")[0] === "-100" || out2.split(".")[0] === "-127") {
         out2 = "--";
       } 
@@ -46,18 +49,22 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1}) 
   }
 
   const style = {};
-  if (+out >= 100 || +out2 >= 100) {
+  if (!notDecrease && (+out >= 100 || +out2 >= 100)) {
     style['fontSize'] = '0.7em';
   };
 
+  if (outID2) {
+    style['display'] = 'flex';
+  }
+
   return (
     <span style={style}> 
-      {(out && +out !== -127 && +out !== -100) ? truncStr(out,30) : def}
-      <span className="widget__text_normal">{units}</span> 
+      <span>{(out && +out !== -127 && +out !== -100) ? truncStr(out,30) : def}
+      <span className="widget__text_normal">{units}</span> </span>
       {outID2 && 
-      <><span className="widget__text_normal" style={{fontSize: "2rem"}}>&nbsp;|&nbsp;</span>
+      <span className='widget__text_left-border'><span className="widget__text_normal" style={{fontSize: "2rem"}}></span>
       {(out2 && +out2 !== -127 && +out2 !== -100) ? out2 : def}
-      <span className="widget__text_normal">{units}</span></>}
+      <span className="widget__text_normal">{units}</span></span>}
     </span> 
   )
   

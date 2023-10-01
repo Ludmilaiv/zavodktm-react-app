@@ -421,8 +421,17 @@
     font-size: 0.5em;
   }
   &__span-flex {
+    width: 37vw;
     display: inline-flex;
     align-items: baseline;
+    justify-content: flex-end;
+    &>span>span {
+      flex-basis: 50%;
+      line-height: 1.3em;
+    }
+    .widget__text_left-border {
+      border-left: 3px solid $border-color;
+    }
   }
 }
 @media all and (min-aspect-ratio: 1/2) {
@@ -450,6 +459,18 @@
           font-size: 14vw;
         }
       }
+      &_corner-bottom {
+        &-left {
+          top: auto;
+          left: 1vw;
+          bottom: 0;
+        }
+        &-right {
+          top: auto;
+          right: 1vw;
+          bottom: 0;
+        } 
+      }
       &_center {
         margin: 1vw;
       }
@@ -459,6 +480,10 @@
         height: calc(var(--vh, 1vh) * 11);
         margin: 1vh;
         margin: calc(var(--vh, 1vh) * 1);
+        &_long {
+          height: 29vh;
+          height: calc(var(--vh, 1vh) * 29);
+        }
       }
     }
     &__span-int {
@@ -507,6 +532,21 @@
       width: 23vw;
       height: 5vh;
       height: calc(var(--vh, 1vh) * 5);
+
+      &_column {
+        display: flex !important;
+        flex-direction: column;
+        width: 100% !important;
+        justify-content: flex-start !important;
+        align-items: center;
+        height: 100%;
+        &>span>span:last-child {
+          min-width: 4.5em;
+        }
+        &>span>span:last-child {
+          min-width: 4.5em;
+        }
+      }
     }
     &__span-info-img {
       height: 90%;
@@ -524,6 +564,28 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      &_top {
+        bottom: auto !important;
+        top: 2vw !important;
+        border-top: none !important;
+        border-bottom: $border !important;
+        border-radius: 0 0 $border-radius 0 !important;
+      }
+      &_top-center {
+        display: flex;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        justify-content: space-between;
+        bottom: auto !important;
+        top: 2vw !important;
+        left: 50%;
+        width: 50vw;
+        margin-left: -25vw;
+        border-top: none !important;
+        border-bottom: $border !important;
+        border-left: $border !important;
+        border-radius: 0 0 $border-radius $border-radius !important;
+      }
     }
     &__img {
       height: 65%;

@@ -102,25 +102,25 @@ const Widget = ({
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1" outID2="setsShnek2" units="%"/>}
+            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1" outID2="setsShnek2" units="%" notDecrease={true}/>}
           </span>
         </span>
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/amper.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="current" outID2="shnekOrCurrent1" units="%" coef={0.1}/>}
+            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="current" outID2="shnekOrCurrent1" units="А" coef={0.01} round={1} notDecrease={true}/>}
           </span>
         </span>
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/small-deg.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="tempBolerOrShnek1" outID2="tempShnekOrShek2" units="&deg;C" coef={0}/>}
+            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="tempBolerOrShnek1" outID2="tempShnekOrShek2" units="&deg;C" round={0} notDecrease={true}/>}
           </span>
         </span>
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().ventel ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1" outID2="setsVent2" units="%"/>}
+            {store.getState().ventel ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1" outID2="setsVent2" units="%" notDecrease={true}/>}
           </span>
         </span>
       </span>
