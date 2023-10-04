@@ -7,13 +7,18 @@ import store from "./store";
 import { setDevs } from './actions';
 import Popup from "./components/popup";
 import { connect } from "react-redux";
+import MobileDetect from 'mobile-detect';
 
 function App(offline=false) {
 
+  const [isMobile, setIsMobile] = useState(true);
+
   useEffect(() => {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  });
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`); 
+    const md = new MobileDetect(window.navigator.userAgent);
+    setIsMobile(!!md.mobile())
+  }, []);
 
   let status = "author";
   let title = "Вход";
@@ -42,10 +47,13 @@ function App(offline=false) {
 
   return (
     <div className="App wraper wraper_background wraper_flex">
-      <Header showActivePage={showActivePage} activePage={activePage} title={headerTitle}/>
-      <Content showActivePage={showActivePage} activePage={activePage}/>
-      <Footer showActivePage={showActivePage} activePage={activePage}/>
-      {(store.getState().offline)?(<Popup text="Не возможно получить данные. Проверьте интернет-подключение" info="true" error="true" popupShow={()=>{store.dispatch(setDevs({errCount: 0})); store.dispatch(setDevs({offline: false}))}}/>):""}
+      {isMobile ? <>
+        <Header showActivePage={showActivePage} activePage={activePage} title={headerTitle}/>
+        <Content showActivePage={showActivePage} activePage={activePage}/>
+        <Footer showActivePage={showActivePage} activePage={activePage}/>
+        {(store.getState().offline)?(<Popup text="Не возможно получить данные. Проверьте интернет-подключение" info="true" error="true" popupShow={()=>{store.dispatch(setDevs({errCount: 0})); store.dispatch(setDevs({offline: false}))}}/>):""} 
+      </> 
+      :<div className="wraper__error"><span>Поддерживаются только мобильные устройства</span></div> }
     </div>
   );
 
