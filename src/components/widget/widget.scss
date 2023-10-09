@@ -245,6 +245,8 @@
       color: $font-color-main;
     }
     font-family: $LCD;
+    font-weight: bold;
+    font-style: italic;
   }
   &__span-int {
     &_big {
@@ -282,6 +284,8 @@
   &__span-label {
     color: $font-color-highlight;
     font-family: $LCD-text;
+    font-weight: normal;
+    font-style: normal;
     font-size: 5vh;
     font-size: calc(var(--vh, 1vh) * 5);
     &_small {
@@ -418,6 +422,8 @@
   }
   &__text_normal {
     font-family: $main-font;
+    font-weight: normal;
+    font-style: normal;
     font-size: 0.5em;
   }
   &__span-flex {
@@ -508,6 +514,8 @@
     &__span-label {
       color: $font-color-highlight;
       font-family: $LCD-text;
+      font-weight: normal;
+      font-style: normal;
       font-size: 5vh;
       font-size: calc(var(--vh, 1vh) * 5);
       &_small {
