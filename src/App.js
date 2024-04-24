@@ -17,7 +17,7 @@ function App(offline=false) {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`); 
     const md = new MobileDetect(window.navigator.userAgent);
-    setIsMobile(!!md.mobile())
+    setIsMobile(!!md.mobile());
   }, []);
 
   let status = "author";

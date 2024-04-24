@@ -25,6 +25,7 @@ const BurgerMenu = ({showActivePage}) => {
           </label>
           <li className="burger-menu__item" onClick={logout}><label htmlFor="menu__toggle">Выход</label></li>
           <li className="burger-menu__item" onClick={showDevices}><label htmlFor="menu__toggle">Мои устройства</label></li>
+          {/* <li className="burger-menu__item"><a href={`http://localhost:5000/${localStorage.getItem("user")}`}>Настройки уведомлений</a></li> */}
         </ul>
       </div>
     ) 

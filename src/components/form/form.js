@@ -42,6 +42,12 @@ const Form = ({showActivePage, activePage}) => {
       if (!/\S+@\S+\.\S+/.test(email)) {
         setErrorMes("Неверный формат адреса электронной почты");
         setErrEmail("form__input_err");
+      } else if (!(/^[a-z0-9]+/i.test(login))) {
+        setErrorMes("Логин может состоять только из латинских букв и цифр");
+        setErrLogin("form__input_err");
+      } else if (!(/^[a-z0-9*&!.+$%@-]+/i.test(password))) {
+        setErrorMes("Пароль может состоять только из латинских букв, цифр и знаков *&!.+-$%@");
+        setErrPass("form__input_err");
       } else if (password.length < 5) {
         setErrorMes("Пароль слишком короткий");
         setErrPass("form__input_err");
@@ -134,7 +140,7 @@ const Form = ({showActivePage, activePage}) => {
       axios.post(data.recoveryPassURL, user)
           .then(function (response) {
             if (response.data === 200) {
-              setErrorMes(`На ${recovery} отправлено сообщение с новым паролем`);
+              setErrorMes(`На ${recovery} отправлена ссылка для восстановления пароля`);
             } else {
               if (response.data === "err1") {
                 setErrorMes("Пользователь с указанным адресом не найден");
