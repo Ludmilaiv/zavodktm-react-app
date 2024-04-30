@@ -56,14 +56,17 @@ const Form = ({showActivePage, activePage}) => {
         setErrPass2("form__input_err");
       } else {
         let user = {login, email, password, password2};
+        setErrorMes("Подождите...");
         axios.post(data.regURL, user)
           .then(function (response) {
-            if (typeof response.data === "number") {
-              localStorage.setItem("user", response.data);
-              if (localStorage.getItem(login+"defaultDev")) {
+            if (typeof response.data === "object" && response.data['user']) {
+              localStorage.setItem("user", response.data['user']);
+              localStorage.setItem("token", response.data['token']);
+              if (localStorage.getItem(response.data['user'] + "defaultDev")) {
                 showActivePage("home","Имя устройства");
+              } else {
+                showActivePage("devices", "Устройства");
               }
-              showActivePage("devices", "Устройства")
             } else {
               if (response.data === "err2") {
                 setErrorMes("Пользователь с таким именем уже существует");
@@ -98,14 +101,17 @@ const Form = ({showActivePage, activePage}) => {
       }
     } else {
       let user = {login, password};
+      setErrorMes("Подождите...");
       axios.post(data.regURL, user)
           .then(function (response) {
-            if (typeof response.data === "number") {
-              localStorage.setItem("user", response.data);
-              if (localStorage.getItem(response.data+"defaultDev")) {
+          if (typeof response.data === "object" && response.data['user']) {
+              localStorage.setItem("user", response.data['user']);
+              localStorage.setItem("token", response.data['token']);
+              if (localStorage.getItem(response.data['user'] + "defaultDev")) {
                 showActivePage("home","Имя устройства");
+              } else {
+                showActivePage("devices", "Устройства");
               }
-              showActivePage("devices", "Устройства")
             } else {
               if (response.data === "err1") {
                 setErrorMes("Неверное имя пользователя или пароль");
@@ -115,7 +121,7 @@ const Form = ({showActivePage, activePage}) => {
                 setErrorMes("Что-то пошло не так. Попробуйте позже");
                 console.log(response.data);
               }
-            }  
+            }
           })
           .catch(function (error) {
             console.log(error);
@@ -136,7 +142,7 @@ const Form = ({showActivePage, activePage}) => {
       setErrorMes("Неверный формат адреса электронной почты");
       setErrRecover("form__input_err");
     } else {
-      let user = {recovery};
+      let user = { recovery };
       axios.post(data.recoveryPassURL, user)
           .then(function (response) {
             if (response.data === 200) {

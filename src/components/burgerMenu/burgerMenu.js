@@ -6,6 +6,7 @@ const BurgerMenu = ({showActivePage}) => {
 
   function logout() {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     showActivePage("author","Вход");
   }
 

@@ -27,7 +27,8 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
 
   const delDevice = (id) => {
     let dev = {dev_id: id};
-    axios.post(data.delDeviceURL, dev)
+    let user = {user_id: localStorage.getItem('user'), token: localStorage.getItem('token')};
+    axios.post(data.delDeviceURL, {...dev, ...user})
           .then(function (response) {
             if (response.data === 1) {
               delPopupShow(false);
@@ -47,7 +48,8 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
 
   const renameDevice = (id, newName) => {
     let dev = {dev_id: id, new_name: newName};
-    axios.post(data.editDeviceURL, dev)
+    let user = {user_id: localStorage.getItem('user'), token: localStorage.getItem('token')};
+    axios.post(data.editDeviceURL, {...dev, ...user})
           .then(function (response) {
             if (response.data !== 1) {
               editPopupShow(false);

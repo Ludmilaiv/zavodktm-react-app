@@ -22,12 +22,17 @@ function App(offline=false) {
 
   let status = "author";
   let title = "Вход";
-  if (localStorage.getItem("user")) {
+  if (localStorage.getItem("user") && localStorage.getItem("token")) {
     if (!offline) {
       store.getState().funcGetDevices();
     }
-    status = "devices";
-    title = "Устройства"
+    if (localStorage.getItem(localStorage.getItem("user") + "defaultDev")) {
+      status = "home";
+      title = "Имя устройства"
+    } else {
+      status = "devices";
+      title = "Устройства"
+    }
   }
 
   const [activePage, setActivePage] = useState(status);

@@ -64,7 +64,7 @@ const initialState = {
   block_setsModeKomn: false,
   block_setsOnKomn: false,
   block_setsOnGV: false,
-  devices: []
+  devices: null,
 };
 
 const store = createStore(reducer, initialState);
@@ -72,7 +72,7 @@ const store = createStore(reducer, initialState);
 
 function getDevices() {
   if (store.getState().pauseGet) return;
-  let user = {userID: localStorage.getItem('user')};
+  let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
   axios.post(data.devicesURL, user)
   .then(function (response) {
     if (typeof response.data === "object") {
@@ -180,6 +180,7 @@ const sendStop = {
 
 function sendSettings(settingsName, value, afterSend, count=0) {
   console.log(settingsName, +store.getState()[settingsName], value);
+  let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
   clearTimeout(delayAfterSend[settingsName]);
   if (+store.getState()[settingsName] !== +value) return;
   if (sendStop[settingsName]) {
@@ -196,7 +197,7 @@ function sendSettings(settingsName, value, afterSend, count=0) {
   const sets = {id};
   const k = `s${setsDict[settingsName] + 1}`;
   sets[k] = value;
-  axios.post(data.setDataURL, sets).then(() => {
+  axios.post(data.setDataURL, {...user, sets}).then(() => {
     if (afterSend) {
       clearTimeout(delayAfterSend[settingsName]);
       delayAfterSend[settingsName] = setTimeout(afterSend, 5000);
@@ -212,8 +213,9 @@ function sendSettings(settingsName, value, afterSend, count=0) {
 }
  
 function getData(){
-  if (localStorage.getItem(localStorage.getItem("user")+"defaultDev")) {
-    axios.post(data.getDataURL, {id: localStorage.getItem(localStorage.getItem("user")+"defaultDev")})
+  let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
+  if (localStorage.getItem(user['userID']+"defaultDev")) {
+    axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDev")})
     .then(function(response) {
       console.log(response.data);
       if (typeof response.data !== 'object') {

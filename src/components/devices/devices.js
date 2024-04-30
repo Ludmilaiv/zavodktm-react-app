@@ -7,9 +7,10 @@ import axios from "axios";
 import data from "../../data";
 import store from "../../store";
 import { setDevs } from "../../actions";
+import { Oval } from  'react-loader-spinner'
 
 
-const Devices = ({showActivePage, devices=[]}) => {
+const Devices = ({showActivePage, devices=null}) => {
 
   const [addPopup, addPopupShow] = useState(false);
   const [errPopup, errPopupShow] = useState(false);
@@ -19,6 +20,21 @@ const Devices = ({showActivePage, devices=[]}) => {
   const [errMessage, errMessageSet] = useState("");
   const [errId, errIdSet] = useState("");
   const [errName, errNameSet] = useState("");
+
+  localStorage.removeItem(localStorage.getItem('user') + "defaultDev");
+
+  const loadingViev = <div className="content__page"><Oval
+    height={100}
+    width={100}
+    color="#ff8000"
+    wrapperStyle={{margin: '20px', height: '50px'}}
+    wrapperClass=""
+    visible={true}
+    ariaLabel='loading'
+    secondaryColor="#FFC400"
+    strokeWidth={5}
+    strokeWidthSecondary={5}
+  /></div>
 
   const getDevices = store.getState().funcGetDevices;
 
@@ -57,7 +73,8 @@ const Devices = ({showActivePage, devices=[]}) => {
       if(!name) errNameSet("form__input_err");
       if(!id) errIdSet("form__input_err");
     } else {
-      const dev = {dev_id: id, dev_name: name, user_id: localStorage.getItem("user") }
+      let user = {user_id: localStorage.getItem('user'), token: localStorage.getItem('token')};
+      const dev = {dev_id: id, dev_name: name, ...user }
       axios.post(data.addDeviceURL, dev)
           .then(function (response) {
             if (response.data === 1) {
@@ -104,12 +121,12 @@ const Devices = ({showActivePage, devices=[]}) => {
   </div>
 
  return (
-    <>
+    <> 
       <ul className="devices">
-        {devices.map(dev => (
+        { Array.isArray(devices) ? devices.map(dev => (
           <Device dev={dev} key={dev.id} stopGet={stopGet} startGet={startGet} showActivePage={showActivePage} addPopup={addPopup}/>
-        ))}
-      </ul>
+        )) : loadingViev }
+      </ul> 
       <Button addClass="devices__button" buttonSpan="Добавить устройство" type="popup" onClick={()=>addPopupShow(true)}/>
       {(addPopup)?<Popup popupOK={()=>addDevice(id,name,localStorage.getItem("user"))} startProcess={()=>{startGet(); getDevices()}} stopProcess={stopGet} popupShow={addPopupShow} text={addHTML}/>:""}
       {(doneAddPopup)?<Popup info="true" time="3000" startProcess={()=>{startGet(); getDevices()}} stopProcess={stopGet} popupShow={doneAddPopupShow} text={`Устройство "${name}" успешно добавлено`}/>:""}
