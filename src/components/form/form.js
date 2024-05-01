@@ -42,10 +42,10 @@ const Form = ({showActivePage, activePage}) => {
       if (!/\S+@\S+\.\S+/.test(email)) {
         setErrorMes("Неверный формат адреса электронной почты");
         setErrEmail("form__input_err");
-      } else if (!(/^[a-z0-9]+/i.test(login))) {
+      } else if (!(/^[A-Za-z0-9]+$/i.test(login))) {
         setErrorMes("Логин может состоять только из латинских букв и цифр");
         setErrLogin("form__input_err");
-      } else if (!(/^[a-z0-9*&!.+$%@-]+/i.test(password))) {
+      } else if (!(/^[A-Za-z0-9*&!.+$%@-]+$/i.test(password))) {
         setErrorMes("Пароль может состоять только из латинских букв, цифр и знаков *&!.+-$%@");
         setErrPass("form__input_err");
       } else if (password.length < 5) {
