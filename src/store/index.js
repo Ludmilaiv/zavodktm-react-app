@@ -21,6 +21,7 @@ const initialState = {
   funcGetData: getData,
   funcGetDevices: getDevices,
   functionSendSettings: sendSettings,
+  authError: false,
   devType: 0,
   pauseGet: false,
   offline: false,
@@ -86,10 +87,14 @@ function getDevices() {
       );
     } else {
       console.log(response.data);
-      store.dispatch(setDevs({errCount: store.getState().errCount + 1}));
-      if (store.getState().errCount > 3) {
-        store.dispatch(setDevs({offline: true}));
-      }
+      if (response.data === 'err5') {
+        store.dispatch(setDevs({authError: true}));
+      } else {
+        store.dispatch(setDevs({errCount: store.getState().errCount + 1}));
+        if (store.getState().errCount > 3) {
+          store.dispatch(setDevs({offline: true}));
+        }
+      } 
     }
   })
   .catch(function (error) {
@@ -197,10 +202,14 @@ function sendSettings(settingsName, value, afterSend, count=0) {
   const sets = {id};
   const k = `s${setsDict[settingsName] + 1}`;
   sets[k] = value;
-  axios.post(data.setDataURL, {...user, sets}).then(() => {
-    if (afterSend) {
-      clearTimeout(delayAfterSend[settingsName]);
-      delayAfterSend[settingsName] = setTimeout(afterSend, 5000);
+  axios.post(data.setDataURL, {...user, sets}).then((response) => {
+    if (response.data === 'err5') {
+      store.dispatch(setDevs({authError: true}));
+    } else {
+      if (afterSend) {
+        clearTimeout(delayAfterSend[settingsName]);
+        delayAfterSend[settingsName] = setTimeout(afterSend, 5000);
+      }
     }
   })
   .catch((error) => {
@@ -219,10 +228,14 @@ function getData(){
     .then(function(response) {
       console.log(response.data);
       if (typeof response.data !== 'object') {
-        store.dispatch(setTemp({errCount: store.getState().errCount + 1}));
-        if (store.getState().errCount > 3) {
-          store.dispatch(setDevs({offline: true}));
-        } 
+        if (response.data === 'err5') {
+          store.dispatch(setDevs({authError: true}));
+        } else {
+          store.dispatch(setTemp({errCount: store.getState().errCount + 1}));
+          if (store.getState().errCount > 3) {
+            store.dispatch(setDevs({offline: true}));
+          } 
+        }
       }
       console.log(response.data.temp[0]);
       if (response.data.temp[0] === -1) {

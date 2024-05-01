@@ -1,10 +1,13 @@
 import Button from "../button";
 import store from "../../store";
+import data from "../../data";
+import axios from "axios";
 
 const BurgerMenu = ({showActivePage}) => {
   const buttonSpan = <span className="button__span button__span_burger"></span>
 
   function logout() {
+    axios.post(data.regURL, {id: localStorage.getItem("user"), logout: localStorage.getItem("token")});
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     showActivePage("author","Вход");

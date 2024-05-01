@@ -9,7 +9,7 @@ import Popup from "./components/popup";
 import { connect } from "react-redux";
 import MobileDetect from 'mobile-detect';
 
-function App(offline=false) {
+function App({offline=false, authError=false}) {
 
   const [isMobile, setIsMobile] = useState(true);
 
@@ -20,9 +20,19 @@ function App(offline=false) {
     setIsMobile(!!md.mobile());
   }, []);
 
+  useEffect(() => {
+    if (authError) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      document.location.reload();
+    }
+  }, [authError])
+
   let status = "author";
   let title = "Вход";
-  if (localStorage.getItem("user") && localStorage.getItem("token")) {
+
+  if (localStorage.getItem("user") && localStorage.getItem("token") && !authError) {
+    console.log(localStorage.getItem("user"), localStorage.getItem("token"), !authError)
     if (!offline) {
       store.getState().funcGetDevices();
     }
@@ -68,7 +78,8 @@ function App(offline=false) {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    offline: state["offline"]
+    offline: state["offline"],
+    authError: state["authError"],
   }
 }
 
