@@ -10,6 +10,8 @@ const data = {
   addDeviceURL: path + "/add-device-v1",
   getDataURL: path + "/get-data-v1",
   setDataURL: path + "/set-data-v1",
+  confirmURL: path + "/mail-confirm",
+  getConfirmURL: path + "/get-confirm",
   metricDict: {
     tempFlow: <>&deg;C</>,
     tempReturn: <>&deg;C</>,

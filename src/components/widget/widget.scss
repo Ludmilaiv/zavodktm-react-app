@@ -281,6 +281,34 @@
       font-size: 6vw;
     }
   }
+  &__text {
+    font-family: "Myriad Pro", Arial;
+    font-size: 5vw;
+    font-weight: bold;
+    font-style: italic;
+    color: $font-color-main;
+    padding: 20px;
+    text-align: center;
+    &_small {
+      font-size: 4vw;
+      font-style: normal;
+      font-weight: normal;
+      color: $font-color-highlight;
+      font-family: Arial;
+    }
+  }
+  &__button {
+    padding: 10px !important;
+    background-color: #ffffff13;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    display: block;
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 20px;
+    color: $font-color-main;
+    font-family: Arial;
+  }
   &__span-label {
     color: $font-color-highlight;
     font-family: $LCD-text;

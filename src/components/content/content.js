@@ -5,6 +5,8 @@ import DevicesPage from "../devicesPage";
 import BolerPage from "../bolerPage";
 import TermosPage from "../termosPage";
 import SettingsPage from "../settingsPage";
+import Loading from "../loading";
+import ConfirmPage from "../confirmPage";
 
 const Content = ({showActivePage, activePage, getDevices}) => {
   return (
@@ -15,7 +17,11 @@ const Content = ({showActivePage, activePage, getDevices}) => {
                   activePage === "kotel" ? (<KotelPage/>): (
                     activePage === 'boler' ? (<BolerPage/>) : (
                       activePage === 'termos' ? (<TermosPage/>) : (
-                        activePage === 'settings' ? (<SettingsPage/>) : ''
+                        activePage === 'settings' ? (<SettingsPage/>) : (
+                          activePage === 'loading' ? (<Loading/>) : (
+                            activePage === 'confirm' ? (<ConfirmPage/>) : ''
+                        )
+                      )
                     )
                   )
                 )
