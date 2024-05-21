@@ -70,7 +70,6 @@ function App({offline=false, authError=false}) {
     function getConfirm () {
       axios.post(data.getConfirmURL, {user_id: localStorage.getItem("user")})
         .then(function (response) {
-          console.log(+response.data);
           if (+response.data === 1) {
             setIsConfirm(true);
             setIsConfirmLoading(false);
@@ -90,7 +89,6 @@ function App({offline=false, authError=false}) {
   });
 
   useEffect(() => {
-    console.log(activePage);
     if (!isConfirm) {
       if (activePage === 'author' || activePage === 'reg' || activePage === 'authorHelp') return;
       if (isConfirmLoading) {

@@ -72,8 +72,8 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1, r
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    out: state[ownProps.outID],
-    out2: ownProps.outID2 ? state[ownProps.outID2] : null,
+    out: state['setsForSend'][ownProps.outID] || state[ownProps.outID],
+    out2: ownProps.outID2 ? state['setsForSend'][ownProps.outID2] || state[ownProps.outID2] : null,
   }
 }
 
