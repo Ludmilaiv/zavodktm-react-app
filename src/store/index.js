@@ -184,7 +184,6 @@ const sendStop = {
 };
 
 function sendSettings(settingsName, value, afterSend, count=0) {
-  console.log(settingsName, +store.getState()[settingsName], value);
   let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
   clearTimeout(delayAfterSend[settingsName]);
   if (+store.getState()[settingsName] !== +value) return;
@@ -197,8 +196,8 @@ function sendSettings(settingsName, value, afterSend, count=0) {
     return;
   }
   sendStop[settingsName] = true;
-  if (!localStorage.getItem(localStorage.getItem("user")+"defaultDev")) return;
-  const id = localStorage.getItem(localStorage.getItem("user")+"defaultDev");
+  if (!localStorage.getItem(localStorage.getItem("user")+"defaultDevice")) return;
+  const id = localStorage.getItem(localStorage.getItem("user")+"defaultDevice");
   const sets = {id};
   const k = `s${setsDict[settingsName] + 1}`;
   sets[k] = value;
@@ -223,8 +222,8 @@ function sendSettings(settingsName, value, afterSend, count=0) {
  
 function getData(){
   let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
-  if (localStorage.getItem(user['userID']+"defaultDev")) {
-    axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDev")})
+  if (localStorage.getItem(user['userID']+"defaultDevice")) {
+    axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDevice")})
     .then(function(response) {
       console.log(response.data);
       if (typeof response.data !== 'object') {

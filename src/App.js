@@ -11,6 +11,10 @@ import MobileDetect from 'mobile-detect';
 import data from "./data";
 import axios from "axios";
 
+window.addEventListener('storage', function (evt) {
+  console.log(evt)
+})
+
 function App({offline=false, authError=false}) {
 
   const [isMobile, setIsMobile] = useState(true);
@@ -40,7 +44,7 @@ function App({offline=false, authError=false}) {
       if (!offline) {
         store.getState().funcGetDevices();
       }
-      if (localStorage.getItem(localStorage.getItem("user") + "defaultDev")) {
+      if (localStorage.getItem(localStorage.getItem("user") + "defaultDevice")) {
         status = "home";
         title = "Имя устройства"
       } else {
@@ -71,10 +75,11 @@ function App({offline=false, authError=false}) {
             setIsConfirm(true);
             setIsConfirmLoading(false);
           } else if (+response.data === 0) {
-            setIsConfirm(false);
             setIsConfirmLoading(false);
+            setIsConfirm(false);
           }
         })
+
         timeout = setTimeout(getConfirm, 3000);
     }
     if (activePage === 'author' || (isConfirm && !isConfirmLoading)) return;
@@ -87,7 +92,7 @@ function App({offline=false, authError=false}) {
   useEffect(() => {
     console.log(activePage);
     if (!isConfirm) {
-      if (activePage === 'author' || activePage === 'authorHelp') return;
+      if (activePage === 'author' || activePage === 'reg' || activePage === 'authorHelp') return;
       if (isConfirmLoading) {
         if (activePage !== 'loading') {
           setActivePage("loading");
@@ -97,9 +102,24 @@ function App({offline=false, authError=false}) {
         setActivePage("confirm");
         setHeaderTitle("Подтверждение эл. почты");
       }       
-    } else if (activePage === 'loading' || activePage === "confirm") {
-      setActivePage('devices');
-      setHeaderTitle('Устройства');
+    } else {
+      if (activePage === 'author') {
+        setIsConfirmLoading(true);
+        setIsConfirm(false);
+        return;
+      }
+      if (activePage === 'loading' || activePage === "confirm") {
+        if (!offline) {
+          store.getState().funcGetDevices();
+        }
+        if (localStorage.getItem(localStorage.getItem("user") + "defaultDevice")) {
+          setActivePage("home");
+          setHeaderTitle("Имя устройства");
+        } else {
+          setActivePage("devices");
+          setHeaderTitle("Устройства");
+        }
+      }
     }
   }, [isConfirm, isConfirmLoading, activePage]);
 

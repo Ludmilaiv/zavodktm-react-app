@@ -21,7 +21,7 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
   const getDevices = store.getState().funcGetDevices;
 
   const lookDevice = (name, id) => {
-    localStorage.setItem(localStorage.getItem("user")+"defaultDev", id)
+    localStorage.setItem(localStorage.getItem("user")+"defaultDevice", id);
     showActivePage("home", name);
   }
 

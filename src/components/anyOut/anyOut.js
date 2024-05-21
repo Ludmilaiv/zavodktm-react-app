@@ -18,7 +18,6 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1, r
   }
 
   coef = (coef === -1) ? data.coefDict[outID] || 1: coef;
-  console.log(outID, coef);
 
   const fl = x => ( (x && x.toString().includes('.')) ? (x.toString().split('.').pop().length) : 0 );
 

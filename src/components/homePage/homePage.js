@@ -38,7 +38,7 @@ const HomePage = ({devType=0, status=0}) => {
   </div>
   
   getData();
-  console.log(devType, status);
+
   return (
     (devType === 0 && status !== -1) ? loadingViev 
       : (devType === 3 && status !== -1) ? twoSheckViev
