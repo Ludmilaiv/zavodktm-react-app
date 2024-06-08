@@ -139,93 +139,14 @@ const setsDict = {
   'setsModeKomn': 45,
 }
 
-// const delaySend = {
-//   setsTempCO: null,
-//   setsTokShnek1: null,
-//   setsShnek1: null,
-//   setsShnek2: null,
-//   setsVent1: null,
-//   setsVent2: null,
-//   setsTempGV: null,
-//   setsOffNasosCOGV: null,
-//   setsTempRoom: null,
-//   setsOnKomn: null,
-//   setsOnGV: null,
-//   setsStartGor1: null,
-//   setsStartGor2: null,
-//   setsModeKomn: null,
-// };
-
-// const delayAfterSend = {
-//   setsTempCO: null,
-//   setsTokShnek1: null,
-//   setsShnek1: null,
-//   setsVent1: null,
-//   setsTempGV: null,
-//   setsOffNasosCOGV: null,
-//   setsTempRoom: null,
-//   setsOnKomn: null,
-//   setsOnGV: null,
-//   setsStartGor1: null,
-//   setsModeKomn: null,
-// };
-
-// const sendStop = {
-//   setsTempCO: false,
-//   setsTokShnek1: false,
-//   setsShnek1: false,
-//   setsVent1: false,
-//   setsTempGV: false,
-//   setsOffNasosCOGV: false,
-//   setsTempRoom: false,
-//   setsOnKomn: false,
-//   setsOnGV: false,
-//   setsStartGor1: false,
-//   setsModeKomn: false,
-// };
-
 let setsForSendData = {};
 let isRegul = false;
 
-//function sendSettings(settingsName, value, afterSend, count=0) {
 function sendSettings(settingsName, value) {
   const k = `s${setsDict[settingsName] + 1}`;
   store.dispatch(setDevs({setsForSend: {...store.getState().setsForSend, [settingsName]: +value}}));
   setsForSendData[k] = +value;
   isRegul = true;
-  // let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
-  // clearTimeout(delayAfterSend[settingsName]);
-  // if (+store.getState()[settingsName] !== +value) return;
-  // if (sendStop[settingsName]) {
-  //   clearTimeout(delaySend[settingsName]);
-  //   delaySend[settingsName] = setTimeout(() => {
-  //     sendStop[settingsName] = false;
-  //     sendSettings(settingsName, value, afterSend);
-  //   }, 1000);
-  //   return;
-  // }
-  // sendStop[settingsName] = true;
-  // if (!localStorage.getItem(localStorage.getItem("user")+"defaultDevice")) return;
-  // const id = localStorage.getItem(localStorage.getItem("user")+"defaultDevice");
-  // const sets = {id};
-  // const k = `s${setsDict[settingsName] + 1}`;
-  // sets[k] = value;
-  // axios.post(data.setDataURL, {...user, sets}).then((response) => {
-  //   if (response.data === 'err5') {
-  //     store.dispatch(setDevs({authError: true}));
-  //   } else {
-  //     if (afterSend) {
-  //       clearTimeout(delayAfterSend[settingsName]);
-  //       delayAfterSend[settingsName] = setTimeout(afterSend, 5000);
-  //     }
-  //   }
-  // })
-  // .catch((error) => {
-  //   console.warn(error);
-  //   if (count < 10) {
-  //     setTimeout(() => {sendSettings(settingsName, value, afterSend, count + 1);}, 500);
-  //   }
-  // });
 }
  
 function getData(){
@@ -233,7 +154,6 @@ function getData(){
   if (localStorage.getItem(user['userID']+"defaultDevice")) {
     axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDevice"), sets: setsForSendData})
     .then(function(response) {
-      //console.log(response.data);
       if (typeof response.data !== 'object') {
         if (response.data === 'err5') {
           store.dispatch(setDevs({authError: true}));
@@ -241,16 +161,20 @@ function getData(){
           store.dispatch(setTemp({errCount: store.getState().errCount + 1}));
           if (store.getState().errCount > 3) {
             store.dispatch(setDevs({offline: true}));
+            store.dispatch(setTemp({setsForSend: {}}));
+            setsForSendData = {};
           } 
         }
+        return;
       }
-      //console.log(response.data.temp[0]);
       if (response.data.temp[0] === -1) {
+        const name = response.data.name;
         store.dispatch(setTemp({
           devType: 0,
           changed: 0,
           errCount: 0,
           status: -1,
+          name: name,
           tempFlow: null,
           tempReturn: null,
           tempBolerOrShnek1: null,
@@ -311,22 +235,6 @@ function getData(){
         } else {
           isRegul = false;
         }
-       
-        // if (!store.getState().block_setsTempCO) store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));
-        // if (!store.getState().block_setsShnek1) store.dispatch(setTemp({setsShnek1: set[setsDict.setsShnek1]}));
-        // if (!store.getState().block_setsShnek2) store.dispatch(setTemp({setsShnek2: set[setsDict.setsShnek2]}));
-        // if (!store.getState().block_setsTokShnek1) store.dispatch(setTemp({setsTokShnek1: set[setsDict.setsTokShnek1]}));
-        // if (!store.getState().block_setsVent1) store.dispatch(setTemp({setsVent1: set[setsDict.setsVent1]}));
-        // if (!store.getState().block_setsVent2) store.dispatch(setTemp({setsVent2: set[setsDict.setsVent2]}));
-        // if (!store.getState().block_setsTempGV) store.dispatch(setTemp({setsTempGV: set[setsDict.setsTempGV]}));
-        // if (!store.getState().block_setsTempRoom) store.dispatch(setTemp({setsTempRoom: set[setsDict.setsTempRoom]}));
-        // if (!store.getState().block_setsStartGor1) store.dispatch(setTemp({setsStartGor1: set[setsDict.setsStartGor1]}));
-        // if (!store.getState().block_setsStartGor2) store.dispatch(setTemp({setsStartGor2: set[setsDict.setsStartGor2]}));
-        // if (!store.getState().block_setsOffNasosCOGV) store.dispatch(setTemp({setsOffNasosCOGV: set[setsDict.setsOffNasosCOGV]}));
-        // if (!store.getState().block_setsModeKomn) store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
-        // if (!store.getState().block_setsOnGV) store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));
-        // if (!store.getState().block_setsOnKomn) store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
-
         store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));
         store.dispatch(setTemp({setsShnek1: set[setsDict.setsShnek1]}));
         store.dispatch(setTemp({setsShnek2: set[setsDict.setsShnek2]}));
@@ -341,7 +249,6 @@ function getData(){
         store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
         store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));
         store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
-
       } 
     })
     .catch(function (error) {
@@ -349,7 +256,6 @@ function getData(){
       console.log(error);
       if (store.getState().errCount > 3) {
         store.dispatch(setDevs({offline: true}));
-        store.dispatch(setTemp({setsForSend: {}}));
         store.dispatch(setTemp({setsForSend: {}}));
         setsForSendData = {};
       } 
@@ -359,8 +265,5 @@ function getData(){
 }
 
 getDevices();
-
-//setInterval(getData, 3000);
-
 
 export default store;
