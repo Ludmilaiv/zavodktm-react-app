@@ -1,0 +1,26 @@
+.error-popup {
+    &__list {
+        li {
+            list-style-type: none; 
+        } 
+    }
+}
+
+.warning-label {
+    &__btn {
+        position: absolute;
+        left: 30px;
+        top: 90px;
+        width: 40px;
+        background-color: transparent;
+        border-radius: 7px;
+    }
+
+    width: 1.5em;
+    display: inline-block;
+    margin: 5px;
+    vertical-align: middle;
+    img {
+        width: 100%;
+    }
+}

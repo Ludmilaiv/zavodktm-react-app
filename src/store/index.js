@@ -50,6 +50,7 @@ const initialState = {
   setsOnGV: null,
   setsStartGor1: null,
   setsModeKomn: null,
+  stopError: null,
   loading_status: false,
   loading_setsStartGor1: false,
   loading_setsStartGor2: false,
@@ -137,6 +138,7 @@ const setsDict = {
   'setsOnKomn': 42,
   'setsTempRoom': 43,
   'setsModeKomn': 45,
+  'stopError': 62,
 }
 
 let setsForSendData = {};
@@ -169,6 +171,7 @@ function getData(){
       }
       if (response.data.temp[0] === -1) {
         const name = response.data.name;
+        console.log(response.data);
         store.dispatch(setTemp({
           devType: 0,
           changed: 0,
@@ -199,6 +202,7 @@ function getData(){
           setsOnGV: null,
           setsStartGor1: null,
           setsModeKomn: null,
+          stopError: null,
           block_setsTempCO: false,
           block_setsShnek1: false,
           block_setsTokShnek1: false,
@@ -249,6 +253,7 @@ function getData(){
         store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
         store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));
         store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
+        store.dispatch(setTemp({stopError: set[setsDict.stopError]}));
       } 
     })
     .catch(function (error) {
