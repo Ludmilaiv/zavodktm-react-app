@@ -171,7 +171,6 @@ function getData(){
       }
       if (response.data.temp[0] === -1) {
         const name = response.data.name;
-        console.log(response.data);
         store.dispatch(setTemp({
           devType: 0,
           changed: 0,
