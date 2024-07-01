@@ -10,7 +10,8 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1, r
       "Выкл",
       "Работа",
       "Поддержка",
-      "Розжиг"
+      "Розжиг",
+      "Реверс"
     ];
     return (
       <>  {(out && out > -1) ? statusDict[out] : "Не в сети"}  </>

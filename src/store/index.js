@@ -152,6 +152,7 @@ function sendSettings(settingsName, value) {
 }
  
 function getData(){
+  //console.log(setsForSendData);
   let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
   if (localStorage.getItem(user['userID']+"defaultDevice")) {
     axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDevice"), sets: setsForSendData})
@@ -254,6 +255,7 @@ function getData(){
         store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
         store.dispatch(setTemp({stopError: set[setsDict.stopError]}));
       } 
+      console.log(store.getState());
     })
     .catch(function (error) {
       store.dispatch(setTemp({errCount: store.getState().errCount + 1}));

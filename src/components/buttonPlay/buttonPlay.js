@@ -19,7 +19,7 @@ const ButtonPlay = ({addClass='button_play', setID, loading, changed, setVal, st
   useEffect(()=>{
     if (+changed === 0) {
       clearTimeout(loadTimeout);
-      setLoading(false);
+      loadTimeout = setTimeout(() => setLoading(false), 2000);
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
@@ -34,7 +34,7 @@ const ButtonPlay = ({addClass='button_play', setID, loading, changed, setVal, st
     setLoading(true);
     
     let set = 0;
-    if (+setVal === 0) {
+    if (+setVal === 0 || +status === 0) {
       set = 1;
     }
     const settings = {};
@@ -42,14 +42,14 @@ const ButtonPlay = ({addClass='button_play', setID, loading, changed, setVal, st
     store.dispatch(setTemp(settings));
     store.getState().functionSendSettings(setID, set, stopLoadingAfterDelay);
   }
-
+  
   let buttonImg = '';
   let style = {};
   if (loading) {
     buttonImg = "images/spiner.gif";
   } else if (+status === -1) {
       buttonImg = "images/offline.png";
-    } else if (+setVal === 0) {
+    } else if (+setVal === 0 || +status === 0) {
       buttonImg = "images/play.png";
     } else {
       buttonImg = "images/stop.png";
