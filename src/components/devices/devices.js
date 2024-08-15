@@ -21,7 +21,7 @@ const Devices = ({showActivePage, devices=null}) => {
   const [errId, errIdSet] = useState("");
   const [errName, errNameSet] = useState("");
 
-  localStorage.removeItem(localStorage.getItem('user') + "defaultDev");
+  localStorage.removeItem(localStorage.getItem('user') + "defaultDevice");
 
   const loadingViev = <div className="content__page"><Oval
     height={100}

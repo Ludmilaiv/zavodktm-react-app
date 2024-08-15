@@ -10,7 +10,8 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1, r
       "Выкл",
       "Работа",
       "Поддержка",
-      "Розжиг"
+      "Розжиг",
+      "Реверс"
     ];
     return (
       <>  {(out && out > -1) ? statusDict[out] : "Не в сети"}  </>
@@ -18,7 +19,6 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1, r
   }
 
   coef = (coef === -1) ? data.coefDict[outID] || 1: coef;
-  console.log(outID, coef);
 
   const fl = x => ( (x && x.toString().includes('.')) ? (x.toString().split('.').pop().length) : 0 );
 
@@ -73,8 +73,8 @@ function AnyOut({out=null, out2=null, outID, outID2, def='--', units, coef=-1, r
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    out: state[ownProps.outID],
-    out2: ownProps.outID2 ? state[ownProps.outID2] : null,
+    out: state['setsForSend'][ownProps.outID] || state[ownProps.outID],
+    out2: ownProps.outID2 ? state['setsForSend'][ownProps.outID2] || state[ownProps.outID2] : null,
   }
 }
 

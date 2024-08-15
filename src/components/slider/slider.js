@@ -2,31 +2,29 @@
 import { Direction, Range } from 'react-range';
 import { connect } from 'react-redux';
 import Button from "../button";
-import { setTemp } from '../../actions';
+//import { setTemp } from '../../actions';
 import store from '../../store';
 import classNames from 'classnames';
 
 const Slider = ({classPrefix=null, value, outID, min, max}) => {
-
   function setData(val) {
-    const states = {}; 
-    states[outID] = (val < min) ? min : ((val > max) ? max : val);
-    states[`block_${outID}`] = true;
-    store.dispatch(setTemp(states));
+    store.getState().functionSendSettings(outID, val);
+    //states[`block_${outID}`] = true;
+    //store.dispatch(setTemp(states));
   }
 
-  function unblock() {
-    const states = {};
-    states[`block_${outID}`] = false;
-    setTimeout(()=>{store.dispatch(setTemp(states))}, 5000);
-  }
+  // function unblock() {
+  //   const states = {};
+  //   states[`block_${outID}`] = false;
+  //   setTimeout(()=>{store.dispatch(setTemp(states))}, 5000);
+  // }
 
   return (
     <div className={classNames("slider", "slider_position", classPrefix && "slider_" + classPrefix)}>
       <Button buttonSpan="-" addClass="slider__button" type="slide" style={{padding:'0 0.3vw 2vw 0'}} onClick={()=>{
         if (Number(value) > min) {
           setData(Number(value) - 1);
-          store.getState().functionSendSettings(outID, Number(value) - 1, unblock);
+          // store.getState().functionSendSettings(outID, Number(value) - 1, unblock);
         }
       }}/>
       <Range
@@ -36,9 +34,10 @@ const Slider = ({classPrefix=null, value, outID, min, max}) => {
         max={max}
         values={(value < min) ? [min] : ((value > max) ? [max] : [value])}
         onChange={(val) => setData(val)}
-        onFinalChange={() => {
-          store.getState().functionSendSettings(outID, Number(value), unblock);
-        }}
+        // onFinalChange={() => {
+        //   //store.getState().functionSendSettings(outID, Number(value), unblock);
+        //   store.getState().functionSendSettings(outID, Number(value));
+        // }}
         renderTrack={({ props, children }) => (
           <div
             {...props}
@@ -74,7 +73,7 @@ const Slider = ({classPrefix=null, value, outID, min, max}) => {
       <Button buttonSpan="+" addClass="slider__button" type="slide" onClick={()=>{
         if (Number(value) < max) {
           setData(Number(value) + 1);
-          store.getState().functionSendSettings(outID, Number(value) + 1, unblock);
+          //store.getState().functionSendSettings(outID, Number(value) + 1, unblock);
         }
       }}/>
     </div>
@@ -85,7 +84,7 @@ const Slider = ({classPrefix=null, value, outID, min, max}) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    value: state[ownProps.outID]
+    value: state['setsForSend'][ownProps.outID] || state[ownProps.outID],
   }
 }
 

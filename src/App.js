@@ -8,10 +8,18 @@ import { setDevs } from './actions';
 import Popup from "./components/popup";
 import { connect } from "react-redux";
 import MobileDetect from 'mobile-detect';
+import data from "./data";
+import axios from "axios";
+
+window.addEventListener('storage', function (evt) {
+  console.log(evt)
+})
 
 function App({offline=false, authError=false}) {
 
   const [isMobile, setIsMobile] = useState(true);
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [isConfirmLoading, setIsConfirmLoading] = useState(true);
 
   useEffect(() => {
     const vh = window.innerHeight * 0.01;
@@ -32,21 +40,86 @@ function App({offline=false, authError=false}) {
   let title = "Вход";
 
   if (localStorage.getItem("user") && localStorage.getItem("token") && !authError) {
-    console.log(localStorage.getItem("user"), localStorage.getItem("token"), !authError)
-    if (!offline) {
-      store.getState().funcGetDevices();
-    }
-    if (localStorage.getItem(localStorage.getItem("user") + "defaultDev")) {
-      status = "home";
-      title = "Имя устройства"
+    if (isConfirm) {
+      if (!offline) {
+        store.getState().funcGetDevices();
+      }
+      if (localStorage.getItem(localStorage.getItem("user") + "defaultDevice")) {
+        status = "home";
+        title = "Имя устройства"
+      } else {
+        status = "devices";
+        title = "Устройства"
+      }
     } else {
-      status = "devices";
-      title = "Устройства"
-    }
+      if (isConfirmLoading) {
+        status = "loading";
+        title = "Подождите...";
+      } else {
+        status = "confirm";
+        title = "Подтверждение эл. почты";
+      }
+    } 
   }
 
   const [activePage, setActivePage] = useState(status);
   const [headerTitle, setHeaderTitle] = useState(title);
+
+  useEffect(() => {
+    let timeout;
+    function getConfirm () {
+      axios.post(data.getConfirmURL, {user_id: localStorage.getItem("user")})
+        .then(function (response) {
+          if (+response.data === 1) {
+            setIsConfirm(true);
+            setIsConfirmLoading(false);
+          } else if (+response.data === 0) {
+            setIsConfirmLoading(false);
+            setIsConfirm(false);
+          }
+        })
+
+        timeout = setTimeout(getConfirm, 3000);
+    }
+    if (activePage === 'author' || (isConfirm && !isConfirmLoading)) return;
+    if (localStorage.getItem("user")) {
+      getConfirm();
+      return () => clearTimeout(timeout);
+    }
+  });
+
+  useEffect(() => {
+    if (!isConfirm) {
+      if (activePage === 'author' || activePage === 'reg' || activePage === 'authorHelp') return;
+      if (isConfirmLoading) {
+        if (activePage !== 'loading') {
+          setActivePage("loading");
+          setHeaderTitle("Подождите...");
+        }
+      } else if (activePage !== "confirm") {
+        setActivePage("confirm");
+        setHeaderTitle("Подтверждение эл. почты");
+      }       
+    } else {
+      if (activePage === 'author') {
+        setIsConfirmLoading(true);
+        setIsConfirm(false);
+        return;
+      }
+      if (activePage === 'loading' || activePage === "confirm") {
+        if (!offline) {
+          store.getState().funcGetDevices();
+        }
+        if (localStorage.getItem(localStorage.getItem("user") + "defaultDevice")) {
+          setActivePage("home");
+          setHeaderTitle("Имя устройства");
+        } else {
+          setActivePage("devices");
+          setHeaderTitle("Устройства");
+        }
+      }
+    }
+  }, [isConfirm, isConfirmLoading, activePage]);
 
   const showActivePage = (page, title) => {
     if (page === "devices") {

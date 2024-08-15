@@ -21,6 +21,7 @@ const initialState = {
   funcGetData: getData,
   funcGetDevices: getDevices,
   functionSendSettings: sendSettings,
+  setsForSend: {},
   authError: false,
   devType: 0,
   pauseGet: false,
@@ -49,6 +50,7 @@ const initialState = {
   setsOnGV: null,
   setsStartGor1: null,
   setsModeKomn: null,
+  stopError: null,
   loading_status: false,
   loading_setsStartGor1: false,
   loading_setsStartGor2: false,
@@ -78,7 +80,7 @@ function getDevices() {
   .then(function (response) {
     if (typeof response.data === "object") {
       store.dispatch(setDevs({offline: false}));
-      console.log(response.data);
+      // console.log(response.data);
       store.dispatch(setDevs(
         {
           errCount: 0,
@@ -86,7 +88,7 @@ function getDevices() {
         })
       );
     } else {
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data === 'err5') {
         store.dispatch(setDevs({authError: true}));
       } else {
@@ -136,97 +138,25 @@ const setsDict = {
   'setsOnKomn': 42,
   'setsTempRoom': 43,
   'setsModeKomn': 45,
+  'stopError': 62,
 }
 
-const delaySend = {
-  setsTempCO: null,
-  setsTokShnek1: null,
-  setsShnek1: null,
-  setsShnek2: null,
-  setsVent1: null,
-  setsVent2: null,
-  setsTempGV: null,
-  setsOffNasosCOGV: null,
-  setsTempRoom: null,
-  setsOnKomn: null,
-  setsOnGV: null,
-  setsStartGor1: null,
-  setsStartGor2: null,
-  setsModeKomn: null,
-};
+let setsForSendData = {};
+let isRegul = false;
 
-const delayAfterSend = {
-  setsTempCO: null,
-  setsTokShnek1: null,
-  setsShnek1: null,
-  setsVent1: null,
-  setsTempGV: null,
-  setsOffNasosCOGV: null,
-  setsTempRoom: null,
-  setsOnKomn: null,
-  setsOnGV: null,
-  setsStartGor1: null,
-  setsModeKomn: null,
-};
-
-const sendStop = {
-  setsTempCO: false,
-  setsTokShnek1: false,
-  setsShnek1: false,
-  setsVent1: false,
-  setsTempGV: false,
-  setsOffNasosCOGV: false,
-  setsTempRoom: false,
-  setsOnKomn: false,
-  setsOnGV: false,
-  setsStartGor1: false,
-  setsModeKomn: false,
-};
-
-function sendSettings(settingsName, value, afterSend, count=0) {
-  console.log(settingsName, +store.getState()[settingsName], value);
-  let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
-  clearTimeout(delayAfterSend[settingsName]);
-  if (+store.getState()[settingsName] !== +value) return;
-  if (sendStop[settingsName]) {
-    clearTimeout(delaySend[settingsName]);
-    delaySend[settingsName] = setTimeout(() => {
-      sendStop[settingsName] = false;
-      sendSettings(settingsName, value, afterSend);
-    }, 1000);
-    return;
-  }
-  sendStop[settingsName] = true;
-  if (!localStorage.getItem(localStorage.getItem("user")+"defaultDev")) return;
-  const id = localStorage.getItem(localStorage.getItem("user")+"defaultDev");
-  const sets = {id};
+function sendSettings(settingsName, value) {
   const k = `s${setsDict[settingsName] + 1}`;
-  sets[k] = value;
-  axios.post(data.setDataURL, {...user, sets}).then((response) => {
-    if (response.data === 'err5') {
-      store.dispatch(setDevs({authError: true}));
-    } else {
-      if (afterSend) {
-        clearTimeout(delayAfterSend[settingsName]);
-        delayAfterSend[settingsName] = setTimeout(afterSend, 5000);
-      }
-    }
-  })
-  .catch((error) => {
-    console.warn(error);
-    if (count < 10) {
-      setTimeout(() => {sendSettings(settingsName, value, afterSend, count + 1);}, 500);
-    }
-  });
-  
+  store.dispatch(setDevs({setsForSend: {...store.getState().setsForSend, [settingsName]: +value}}));
+  setsForSendData[k] = +value;
+  isRegul = true;
 }
  
 function getData(){
+  //console.log(setsForSendData);
   let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
-  if (localStorage.getItem(user['userID']+"defaultDev")) {
-    axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDev")})
+  if (localStorage.getItem(user['userID']+"defaultDevice")) {
+    axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDevice"), sets: setsForSendData})
     .then(function(response) {
-      console.log(response.data);
       if (typeof response.data !== 'object') {
         if (response.data === 'err5') {
           store.dispatch(setDevs({authError: true}));
@@ -234,16 +164,20 @@ function getData(){
           store.dispatch(setTemp({errCount: store.getState().errCount + 1}));
           if (store.getState().errCount > 3) {
             store.dispatch(setDevs({offline: true}));
+            store.dispatch(setTemp({setsForSend: {}}));
+            setsForSendData = {};
           } 
         }
+        return;
       }
-      console.log(response.data.temp[0]);
       if (response.data.temp[0] === -1) {
+        const name = response.data.name;
         store.dispatch(setTemp({
           devType: 0,
           changed: 0,
           errCount: 0,
           status: -1,
+          name: name,
           tempFlow: null,
           tempReturn: null,
           tempBolerOrShnek1: null,
@@ -268,6 +202,7 @@ function getData(){
           setsOnGV: null,
           setsStartGor1: null,
           setsModeKomn: null,
+          stopError: null,
           block_setsTempCO: false,
           block_setsShnek1: false,
           block_setsTokShnek1: false,
@@ -298,28 +233,37 @@ function getData(){
           current: temp[tempDict.current],
           shnekOrCurrent1: temp[tempDict.shnekOrCurrent1],
         }));
-        if (!store.getState().block_setsTempCO) store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));
-        if (!store.getState().block_setsShnek1) store.dispatch(setTemp({setsShnek1: set[setsDict.setsShnek1]}));
-        if (!store.getState().block_setsShnek2) store.dispatch(setTemp({setsShnek2: set[setsDict.setsShnek2]}));
-        if (!store.getState().block_setsTokShnek1) store.dispatch(setTemp({setsTokShnek1: set[setsDict.setsTokShnek1]}));
-        if (!store.getState().block_setsVent1) store.dispatch(setTemp({setsVent1: set[setsDict.setsVent1]}));
-        if (!store.getState().block_setsVent2) store.dispatch(setTemp({setsVent2: set[setsDict.setsVent2]}));
-        if (!store.getState().block_setsTempGV) store.dispatch(setTemp({setsTempGV: set[setsDict.setsTempGV]}));
-        if (!store.getState().block_setsTempRoom) store.dispatch(setTemp({setsTempRoom: set[setsDict.setsTempRoom]}));
-        if (!store.getState().block_setsStartGor1) store.dispatch(setTemp({setsStartGor1: set[setsDict.setsStartGor1]}));
-        if (!store.getState().block_setsStartGor2) store.dispatch(setTemp({setsStartGor2: set[setsDict.setsStartGor2]}));
-        if (!store.getState().block_setsOffNasosCOGV) store.dispatch(setTemp({setsOffNasosCOGV: set[setsDict.setsOffNasosCOGV]}));
-        if (!store.getState().block_setsModeKomn) store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
-        if (!store.getState().block_setsOnGV) store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));
-        if (!store.getState().block_setsOnKomn) store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
-
+        if (!isRegul) {
+          store.dispatch(setTemp({setsForSend: {}}));
+          setsForSendData = {};
+        } else {
+          isRegul = false;
+        }
+        store.dispatch(setTemp({setsTempCO: set[setsDict.setsTempCO]}));
+        store.dispatch(setTemp({setsShnek1: set[setsDict.setsShnek1]}));
+        store.dispatch(setTemp({setsShnek2: set[setsDict.setsShnek2]}));
+        store.dispatch(setTemp({setsTokShnek1: set[setsDict.setsTokShnek1]}));
+        store.dispatch(setTemp({setsVent1: set[setsDict.setsVent1]}));
+        store.dispatch(setTemp({setsVent2: set[setsDict.setsVent2]}));
+        store.dispatch(setTemp({setsTempGV: set[setsDict.setsTempGV]}));
+        store.dispatch(setTemp({setsTempRoom: set[setsDict.setsTempRoom]}));
+        store.dispatch(setTemp({setsStartGor1: set[setsDict.setsStartGor1]}));
+        store.dispatch(setTemp({setsStartGor2: set[setsDict.setsStartGor2]}));
+        store.dispatch(setTemp({setsOffNasosCOGV: set[setsDict.setsOffNasosCOGV]}));
+        store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
+        store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));
+        store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
+        store.dispatch(setTemp({stopError: set[setsDict.stopError]}));
       } 
+      console.log(store.getState());
     })
     .catch(function (error) {
       store.dispatch(setTemp({errCount: store.getState().errCount + 1}));
       console.log(error);
       if (store.getState().errCount > 3) {
         store.dispatch(setDevs({offline: true}));
+        store.dispatch(setTemp({setsForSend: {}}));
+        setsForSendData = {};
       } 
     });
   }
@@ -327,8 +271,5 @@ function getData(){
 }
 
 getDevices();
-
-//setInterval(getData, 3000);
-
 
 export default store;

@@ -7,6 +7,7 @@ import Boler from '../boler';
 import Settings from '../settings';
 import Termos from '../termos';
 import store from "../../store";
+import Confirm from '../confirm';
 
 const Widget = ({
   typeClass, tempID="tempFlow", setID="setsTempCO", icon, 
@@ -17,6 +18,15 @@ const Widget = ({
 
   const className = `widget widget_layout widget_${typeClass} widget_position`;
   const main = typeClass.indexOf("main") === 0;
+
+    // Для виджета на страничке подтверждения адреса эл. почты
+    if (typeClass === "confirm") {
+      return (
+        <div className={className}>
+          <Confirm/>
+        </div>
+      )
+    } 
 
   // Для виджета на страничке авторизации
   if (typeClass === "author") {

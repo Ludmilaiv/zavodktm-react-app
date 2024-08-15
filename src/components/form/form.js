@@ -62,7 +62,7 @@ const Form = ({showActivePage, activePage}) => {
             if (typeof response.data === "object" && response.data['user']) {
               localStorage.setItem("user", response.data['user']);
               localStorage.setItem("token", response.data['token']);
-              if (localStorage.getItem(response.data['user'] + "defaultDev")) {
+              if (localStorage.getItem(response.data['user'] + "defaultDevice")) {
                 showActivePage("home","Имя устройства");
               } else {
                 showActivePage("devices", "Устройства");
@@ -107,7 +107,7 @@ const Form = ({showActivePage, activePage}) => {
           if (typeof response.data === "object" && response.data['user']) {
               localStorage.setItem("user", response.data['user']);
               localStorage.setItem("token", response.data['token']);
-              if (localStorage.getItem(response.data['user'] + "defaultDev")) {
+              if (localStorage.getItem(response.data['user'] + "defaultDevice")) {
                 showActivePage("home","Имя устройства");
               } else {
                 showActivePage("devices", "Устройства");

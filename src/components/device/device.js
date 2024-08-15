@@ -21,7 +21,7 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
   const getDevices = store.getState().funcGetDevices;
 
   const lookDevice = (name, id) => {
-    localStorage.setItem(localStorage.getItem("user")+"defaultDev", id)
+    localStorage.setItem(localStorage.getItem("user")+"defaultDevice", id);
     showActivePage("home", name);
   }
 
@@ -98,8 +98,9 @@ const Device = ({dev, stopGet, startGet, showActivePage}) => {
   
   return (
     <li {...longPressHendlers} {...swipeHandlers} className={`devices__item ${(dev.temp===-3000)?"devices__item_offline":""}`}>
+      {dev.icon && <div className="devices__item_warning"><img src={`images/${dev.icon}.svg`} alt="!"/></div>}
       <div className={classNames(["devices__info", mode])} onClick={()=>mode==="normal" ? lookDevice(dev.name, dev.id) : null}>
-        <div>{truncStr(dev.name,30)}</div> 
+        <div className="devices__info-name">{truncStr(dev.name,30)}</div> 
         {(dev.temp===-3000)?<div className="offline-circle"></div>
         : ((dev.temp===-1270 || dev.temp===-1000)
         ? <div className="devices__info-temp"><div className="online-circle"></div><span>--</span></div>
