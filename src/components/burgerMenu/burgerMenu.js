@@ -8,7 +8,7 @@ const BurgerMenu = ({showActivePage}) => {
 
   function logout() {
     axios.post(data.regURL, {id: localStorage.getItem("user"), logout: localStorage.getItem("token")});
-    localStorage.removeItem("user");
+    localStorage.removeItem("user");  
     localStorage.removeItem("token");
     showActivePage("author","Вход");
   }
