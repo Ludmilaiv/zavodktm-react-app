@@ -76,31 +76,38 @@ const ErrorPopup = ({
     if (status >= 0 && +setsForSend['stopError'] !== 0) {
       if (+stopError === 1) return (<>
         {warningBtn}
-        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/></span>ВНИМАНИЕ!</h3>Работа котла прервана. Неисправен датчик подачи.</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0); }} /></>
+        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/>
+        </span>ВНИМАНИЕ!</h3>Работа котла прервана. Неисправен датчик подачи.</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0); }} /></>
       )
       if (+stopError === 2) return (<>
         {warningBtn}
-        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/></span>ВНИМАНИЕ!</h3>Работа котла прервана. Заклинивание шнека</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
+        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/>
+        </span>ВНИМАНИЕ!</h3>Работа котла прервана. Заклинивание шнека</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
       )
       if (+stopError === 3) return (<>
         {warningBtn}
-        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/></span>ВНИМАНИЕ!</h3>Котёл угас. Низкая температура подачи</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
+        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/>
+        </span>ВНИМАНИЕ!</h3>Котёл угас. Низкая температура подачи</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
       )
       if (+stopError === 4) return (<>
         {warningBtn}
-        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/></span>ВНИМАНИЕ!</h3>Котёл угас. Низкая температура дымовых газов</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
+        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/>
+        </span>ВНИМАНИЕ!</h3>Котёл угас. Низкая температура дымовых газов</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
       )
       if (+stopError === 5) return (<>
         {warningBtn}
-        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/></span>ВНИМАНИЕ!</h3>Работа котла прервана. Перегрев</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
+        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/>
+        </span>ВНИМАНИЕ!</h3>Работа котла прервана. Перегрев</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
       )
       if (+stopError === 6) return (<>
         {warningBtn}
-        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/></span>ВНИМАНИЕ!</h3>Работа котла прервана. Неисправно силовое реле</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
+        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/>
+        </span>ВНИМАНИЕ!</h3>Работа котла прервана. Неисправно силовое реле</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
       )
       if (+stopError === 7) return (<>
         {warningBtn}
-        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/></span>ВНИМАНИЕ!</h3>Работа котла прервана. Обрыв питания шнека</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
+        <Popup text={<><h3><span className="warning-label" ><img src="images/danger.svg" alt="!"/>
+        </span>ВНИМАНИЕ!</h3>Работа котла прервана. Обрыв питания шнека</>} info="true" error="true" popupShow={() => {store.getState().functionSendSettings('stopError', 0);}} /></>
       )
     }
   }
