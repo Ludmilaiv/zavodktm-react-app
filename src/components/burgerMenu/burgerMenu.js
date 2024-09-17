@@ -11,7 +11,6 @@ const BurgerMenu = ({showActivePage}) => {
     axios.post(data.regURL, {id: userId, logout: localStorage.getItem("token")});
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.open(`https://biomatic24.ru/logout/${userId}`);
     showActivePage("author","Вход");
   }
 
@@ -31,7 +30,7 @@ const BurgerMenu = ({showActivePage}) => {
           </label>
           <li className="burger-menu__item" onClick={logout}><label htmlFor="menu__toggle">Выход</label></li>
           <li className="burger-menu__item" onClick={showDevices}><label htmlFor="menu__toggle">Мои устройства</label></li>
-          <li className="burger-menu__item"><a href={`https://biomatic24.ru/${localStorage.getItem("user")}`} target="_blank">Настройки уведомлений</a></li>
+          <li className="burger-menu__item"><a href={`https://biomatic24.ru/${localStorage.getItem("user")}`} target="_self">Настройки уведомлений</a></li>
         </ul>
       </div>
     ) 
