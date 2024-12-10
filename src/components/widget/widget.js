@@ -86,14 +86,14 @@ const Widget = ({
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1"/>}
+            {<AnyOut outID="shnek"/>}
             <span className="widget__text_normal">%</span>
           </span>
         </span>
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().ventel ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
+            {<AnyOut outID="ventel"/>}
             <span className="widget__text_normal">%</span>
           </span>
         </span>
@@ -112,25 +112,25 @@ const Widget = ({
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="setsShnek1" outID2="setsShnek2" units="%" notDecrease={true}/>}
+            {<AnyOut outID="setsShnek1" outID2="setsShnek2" units="%" notDecrease={true}/>}
           </span>
         </span>
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/amper.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="current" outID2="shnekOrCurrent1" units="А" coef={0.01} round={1} notDecrease={true}/>}
+            {<AnyOut outID="current" outID2="current2" units="А" coef={0.01} round={1} notDecrease={true}/>}
           </span>
         </span>
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/small-deg.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().shnek ? <AnyOut outID="shnek"/> : <AnyOut outID="tempBolerOrShnek1" outID2="tempShnekOrShek2" units="&deg;C" round={0} notDecrease={true}/>}
+            {<AnyOut outID="shnek" outID2="shnek2"/>}
           </span>
         </span>
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
           <span className="widget__span-flex">
-            {store.getState().ventel ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1" outID2="setsVent2" units="%" notDecrease={true}/>}
+            {<AnyOut outID="ventel" outID2="ventel2"/>}
           </span>
         </span>
       </span>

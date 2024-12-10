@@ -39,6 +39,10 @@ const initialState = {
   current: null,
   shnekOrCurrent1: null,
   ventel: null,
+  shnek: null,
+  shnekOrCurrent2: null,
+  ventel2: null,
+  shnek2: null,
   setsTempCO: null,
   setsTokShnek1: null,
   setsShnek1: null,
@@ -47,6 +51,7 @@ const initialState = {
   setsOffNasosCOGV: null,
   setsTempRoom: null,
   setsOnKomn: null,
+  pid: null,
   setsOnGV: null,
   setsStartGor1: null,
   setsModeKomn: null,
@@ -118,8 +123,11 @@ const tempDict = {
   'tempOutside': 6,
   'tempSmoke': 7,
   'current': 8,
-  'shnekOrCurrent1': 9,
-  'ventel': 10
+  'ventel': 9,
+  'shnek': 10,
+  'current2': 11,
+  'ventel2': 12,
+  'shnek2': 13,
 }
 
 const setsDict = {
@@ -132,6 +140,7 @@ const setsDict = {
   'setsVent2': 11,
   'setsStartGor1': 20,
   'setsStartGor2': 21,
+  'pid': 32,
   'setsOnGV': 38,
   'setsTempGV': 39,
   'setsOffNasosCOGV': 41,
@@ -186,8 +195,11 @@ function getData(){
           tempOutside: null,
           tempSmoke: null,
           current: null,
-          shnekOrCurrent1: null,
+          current2: null,
           ventel: null,
+          ventel2: null,
+          shnek: null,
+          shnek2: null,
           setsTempCO: null,
           setsTokShnek1: null,
           setsTokShnek2: null,
@@ -196,6 +208,7 @@ function getData(){
           setsVent1: null,
           setsVent2: null,
           setsTempGV: null,
+          pid: null,
           setsOffNasosCOGV: null,
           setsTempRoom: null,
           setsOnKomn: null,
@@ -231,7 +244,11 @@ function getData(){
           tempOutside: temp[tempDict.tempOutside],
           tempSmoke: temp[tempDict.tempSmoke],
           current: temp[tempDict.current],
-          shnekOrCurrent1: temp[tempDict.shnekOrCurrent1],
+          shnek: temp[tempDict.shnek],
+          ventel: temp[tempDict.ventel],
+          current2: temp[tempDict.current2],
+          ventel2: temp[tempDict.ventel2],
+          shnek2: temp[tempDict.shnek2],
         }));
         if (!isRegul) {
           store.dispatch(setTemp({setsForSend: {}}));
@@ -253,6 +270,7 @@ function getData(){
         store.dispatch(setTemp({setsModeKomn: set[setsDict.setsModeKomn]}));
         store.dispatch(setTemp({setsOnGV: set[setsDict.setsOnGV]}));
         store.dispatch(setTemp({setsOnKomn: set[setsDict.setsOnKomn]}));
+        store.dispatch(setTemp({pid: set[setsDict.pid]}));
         store.dispatch(setTemp({stopError: set[setsDict.stopError]}));
       } 
       console.log(store.getState());

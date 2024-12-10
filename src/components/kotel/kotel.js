@@ -58,7 +58,7 @@ const Kotel = ({className, devType=0, status=0}) => {
       </div>
       <div className="widget__out widget__out_top">
         <span>
-        <AnyOut outID="setsShnek1"/>
+        <AnyOut outID="shnek"/>
           <span className="widget__text_normal">%</span>
         </span>
       </div>
@@ -90,7 +90,7 @@ const Kotel = ({className, devType=0, status=0}) => {
       </div>
       <div className="widget__out widget__out_top">
         <span>
-          {store.getState().ventel ? <AnyOut outID="ventel"/> : <AnyOut outID="setsVent1"/>}
+          {<AnyOut outID="ventel"/>}
           <span className="widget__text_normal">%</span>
         </span>
       </div>
