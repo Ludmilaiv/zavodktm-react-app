@@ -47,11 +47,12 @@ const Devices = ({showActivePage, devices=null}) => {
   }
 
   useEffect(() => {
-    const getDevsInterval = setInterval(getDevices,3000)
+    getDevices();
+    const getDevsInterval = setInterval(getDevices,5000)
     return function cleanup() {
       clearInterval(getDevsInterval);
     }
-  });
+  }, []);
  
   function handleChangeName(event) {
     errMessageSet("");

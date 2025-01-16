@@ -12,6 +12,10 @@
     justify-content: space-between;
     flex: 1 1;
     width: 100%;
+    &_long {
+      height: 90vh;
+      height: calc(var(--vh, 1vh) * 90);
+    }
   }
   &__error {
     font-family: $main-font;

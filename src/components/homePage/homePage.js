@@ -4,14 +4,15 @@ import { useEffect } from "react";
 import { connect } from 'react-redux';
 import { Oval } from  'react-loader-spinner'
 
-const HomePage = ({devType=0, status=0}) => {
+const HomePage = ({devType=0, status=0, pid}) => {
   const getData = store.getState().funcGetData;
   useEffect(() => {
-    const getDataInterval = setInterval(getData,3000)
+    getData();
+    const getDataInterval = setInterval(getData,5000)
     return function cleanup() {
       clearInterval(getDataInterval);
     }
-  });
+  }, []);
 
   const loadingViev = <div className="content__page"><Oval
     height={100}
@@ -27,7 +28,7 @@ const HomePage = ({devType=0, status=0}) => {
   /></div>
 
   const oneSheckViev = <div className="content__page">
-    <Widget typeClass="main" tempID="tempFlow" setID="setsTempCO" icon="main" devType={devType}/>
+    <Widget typeClass="main" tempID="tempFlow" setID="setsTempCO" icon="main" devType={devType} pid={pid}/>
     <Widget typeClass="sup" tempID="tempBolerOrShnek1" setID="setsTempGV" icon="1"/>
     <Widget typeClass="sup" tempID="tempRoom" setID="setsTempRoom" icon="2"/>
   </div>
@@ -50,7 +51,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     devType: state.devType,
-    status: state.status
+    status: state.status,
+    pid: state.pid,
   }
 }
   

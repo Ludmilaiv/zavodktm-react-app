@@ -10,9 +10,7 @@ const Footer = ({showActivePage, activePage}) => {
     )
   } else {
     return (
-      <div className="footer footer_position">
-               
-      </div>
+      <></>
     )
   }
 }

@@ -41,9 +41,6 @@ function App({offline=false, authError=false}) {
 
   if (localStorage.getItem("user") && localStorage.getItem("token") && !authError) {
     if (isConfirm) {
-      if (!offline) {
-        store.getState().funcGetDevices();
-      }
       if (localStorage.getItem(localStorage.getItem("user") + "defaultDevice")) {
         status = "home";
         title = "Имя устройства"
@@ -79,7 +76,7 @@ function App({offline=false, authError=false}) {
           }
         })
 
-        timeout = setTimeout(getConfirm, 3000);
+        timeout = setTimeout(getConfirm, 5000);
     }
     if (activePage === 'author' || (isConfirm && !isConfirmLoading)) return;
     if (localStorage.getItem("user")) {
@@ -107,9 +104,6 @@ function App({offline=false, authError=false}) {
         return;
       }
       if (activePage === 'loading' || activePage === "confirm") {
-        if (!offline) {
-          store.getState().funcGetDevices();
-        }
         if (localStorage.getItem(localStorage.getItem("user") + "defaultDevice")) {
           setActivePage("home");
           setHeaderTitle("Имя устройства");
@@ -122,9 +116,6 @@ function App({offline=false, authError=false}) {
   }, [isConfirm, isConfirmLoading, activePage]);
 
   const showActivePage = (page, title) => {
-    if (page === "devices") {
-      store.getState().funcGetDevices();
-    }
     setActivePage(page);
     outHeaderTitle(title);
   }

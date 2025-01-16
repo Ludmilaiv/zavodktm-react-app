@@ -37,6 +37,7 @@ const initialState = {
   tempOutside: null,
   tempSmoke: null,
   current: null,
+  current2: null,
   shnekOrCurrent1: null,
   ventel: null,
   shnek: null,
@@ -46,7 +47,9 @@ const initialState = {
   setsTempCO: null,
   setsTokShnek1: null,
   setsShnek1: null,
+  setsShnek2: null,
   setsVent1: null,
+  setsVent2: null,
   setsTempGV: null,
   setsOffNasosCOGV: null,
   setsTempRoom: null,
@@ -85,7 +88,6 @@ function getDevices() {
   .then(function (response) {
     if (typeof response.data === "object") {
       store.dispatch(setDevs({offline: false}));
-      // console.log(response.data);
       store.dispatch(setDevs(
         {
           errCount: 0,
@@ -93,7 +95,6 @@ function getDevices() {
         })
       );
     } else {
-      // console.log(response.data);
       if (response.data === 'err5') {
         store.dispatch(setDevs({authError: true}));
       } else {
@@ -161,7 +162,6 @@ function sendSettings(settingsName, value) {
 }
  
 function getData(){
-  //console.log(setsForSendData);
   let user = {userID: localStorage.getItem('user'), token: localStorage.getItem('token')};
   if (localStorage.getItem(user['userID']+"defaultDevice")) {
     axios.post(data.getDataURL, {...user, id: localStorage.getItem(user['userID']+"defaultDevice"), sets: setsForSendData})
@@ -273,7 +273,6 @@ function getData(){
         store.dispatch(setTemp({pid: set[setsDict.pid]}));
         store.dispatch(setTemp({stopError: set[setsDict.stopError]}));
       } 
-      console.log(store.getState());
     })
     .catch(function (error) {
       store.dispatch(setTemp({errCount: store.getState().errCount + 1}));
@@ -287,7 +286,5 @@ function getData(){
   }
   
 }
-
-getDevices();
 
 export default store;

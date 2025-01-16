@@ -19,7 +19,7 @@ const loadingViev = <div className="content__page"><Oval
     strokeWidthSecondary={5}
   /></div>
 
-const Kotel = ({className, devType=0, status=0}) => { 
+const Kotel = ({className, devType=0, status=0, pid}) => { 
 
   const oneSheckViev = <div className={className}>
     <div className={`widget__subwidget widget__subwidget_main`}>
@@ -51,18 +51,20 @@ const Kotel = ({className, devType=0, status=0}) => {
 
     <div className={`widget__subwidget widget__subwidget_sup`}>
       <div className={`widget__out widget__out_corner widget__out_corner`}>
-          <AnyOut outID="setsShnek1"/>
+      {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek" /> : <AnyOut outID="setsShnek1" />}
       </div>
       <div className="widget__icon widget__icon_top">
         <img src="images/shnek.png" alt="" className="widget__img"/>
       </div>
       <div className="widget__out widget__out_top">
         <span>
-        <AnyOut outID="shnek"/>
+        {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek" /> : <AnyOut outID="setsShnek1" />}
           <span className="widget__text_normal">%</span>
         </span>
       </div>
-      <Slider outID="setsShnek1" min={1} max={100}/>
+      {+pid > 1 && +pid < 4 ? <span className="widget__span-label widget__span-label_small">АВТО</span> :
+      <Slider outID="setsShnek1" min={1} max={100}/>}
+      
       <div className="widget__out widget__out_bottom-center">
         <span className="widget__span-info widget__span-info_flex">
           <span className="widget__span-info-item widget__span-info-item_small">
@@ -83,18 +85,20 @@ const Kotel = ({className, devType=0, status=0}) => {
 
     <div className={`widget__subwidget widget__subwidget_sup`}>
       <div className={`widget__out widget__out_corner widget__out_corner`}>
-          <AnyOut outID="setsVent1"/>
+      {+pid === 3 ? <AnyOut outID="ventel" /> : <AnyOut outID="setsVent1" notDecrease={true}/>}
       </div>
       <div className="widget__icon  widget__icon_top">
         <img src={`images/ventel.png`} alt="" className="widget__img"/>
       </div>
       <div className="widget__out widget__out_top">
         <span>
-          {<AnyOut outID="ventel"/>}
+        {+pid === 3 ? <AnyOut outID="ventel" /> : <AnyOut outID="setsVent1" notDecrease={true} />}
           <span className="widget__text_normal">%</span>
         </span>
       </div>
-      <Slider outID="setsVent1" min={1} max={100}/>
+      {+pid > 1 && +pid < 4 ? <span className="widget__span-label widget__span-label_small">АВТО</span> :
+      <Slider outID="setsVent1" min={1} max={100}/>}
+      
     </div>
   </div>
 
@@ -162,7 +166,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     devType: state.devType,
-    status: state.status
+    status: state.status,
+    pid: state.pid,
   }
 }
  

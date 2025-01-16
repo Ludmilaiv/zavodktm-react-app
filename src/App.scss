@@ -18,8 +18,8 @@
 .wraper {
   &_background {
     position: absolute;
-    height: 90.5vh;
-    height: calc(var(--vh, 1vh) * 90.5);
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     left: 0;
     right: 0;
     top: 0;

@@ -10,7 +10,7 @@ const DevicesPage = ({showActivePage}) => {
   }, [])
 
   return (
-    <div className="content__page">
+    <div className="content__page content__page_long">
       <Widget typeClass="devices" showActivePage={showActivePage}/>
     </div>
   )

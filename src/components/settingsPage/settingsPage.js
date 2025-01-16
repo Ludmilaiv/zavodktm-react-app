@@ -5,11 +5,12 @@ import { useEffect } from "react";
 const KotelPage = (props) => {
   const getData = store.getState().funcGetData;
   useEffect(() => {
-    const getDataInterval = setInterval(getData,3000)
+    getData();
+    const getDataInterval = setInterval(getData,5000)
     return function cleanup() {
       clearInterval(getDataInterval);
     }
-  });
+  }, []);
   
   getData();
   return (

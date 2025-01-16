@@ -19,7 +19,7 @@ const loadingViev = <div className="content__page"><Oval
   strokeWidthSecondary={5}
 /></div>
 
-const Settings = ({ className, devType = 0, status = 0 }) => {
+const Settings = ({ className, devType = 0, status = 0, pid }) => {
 
   const twoSheckViev = <div className={className}>
 
@@ -33,18 +33,18 @@ const Settings = ({ className, devType = 0, status = 0 }) => {
       <div className="widget__out widget__out_double">
         <div className="widget__out-section widget__out-section_left">
           <span>
-            <AnyOut outID="setsShnek1" units="%" />
+            {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek" units="%"/> : <AnyOut outID="setsShnek1" units="%"/>}
           </span>
           <div className={`widget__out widget__out_corner widget__out_corner-big widget__out_corner-bottom-right`}>
-            <AnyOut outID="setsShnek1" />
+            {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek" /> : <AnyOut outID="setsShnek1" />}
           </div>
         </div>
         <div className="widget__out-section widget__out-section_right">
           <span>
-            <AnyOut outID="setsShnek2" units="%" />
+            {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek2" /> : <AnyOut outID="setsShnek2" />}
           </span>
           <div className={`widget__out widget__out_corner widget__out_corner-big widget__out_corner-bottom-left`}>
-            <AnyOut outID="setsShnek2" />
+            {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek2" /> : <AnyOut outID="setsShnek2" />}
           </div>
         </div>
       </div>
@@ -110,7 +110,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     devType: state.devType,
-    status: state.status
+    status: state.status,
+    pid: state.pid,
   }
 }
 

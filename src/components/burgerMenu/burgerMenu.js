@@ -15,7 +15,6 @@ const BurgerMenu = ({showActivePage}) => {
   }
 
   function showDevices() {
-    store.getState().funcGetDevices();
     showActivePage("devices","Устройства");
   }
 

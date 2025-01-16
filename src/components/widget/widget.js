@@ -6,14 +6,14 @@ import Kotel from "../kotel";
 import Boler from '../boler';
 import Settings from '../settings';
 import Termos from '../termos';
-import store from "../../store";
 import Confirm from '../confirm';
 
 const Widget = ({
   typeClass, tempID="tempFlow", setID="setsTempCO", icon, 
   showActivePage,
   activePage,
-  devType
+  devType,
+  pid
 }) => {
 
   const className = `widget widget_layout widget_${typeClass} widget_position`;
@@ -86,14 +86,14 @@ const Widget = ({
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/shnek.png" alt=""/>
           <span className="widget__span-flex">
-            {<AnyOut outID="shnek"/>}
+            {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek" /> : <AnyOut outID="setsShnek1" notDecrease={true} />}
             <span className="widget__text_normal">%</span>
           </span>
         </span>
         <span className="widget__span-info-item">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
           <span className="widget__span-flex">
-            {<AnyOut outID="ventel"/>}
+            {+pid === 3 ? <AnyOut outID="ventel" /> : <AnyOut outID="setsVent1" notDecrease={true} />}
             <span className="widget__text_normal">%</span>
           </span>
         </span>
@@ -124,13 +124,13 @@ const Widget = ({
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/small-deg.png" alt=""/>
           <span className="widget__span-flex">
-            {<AnyOut outID="shnek" outID2="shnek2"/>}
+            {+pid > 1 && +pid < 4 ? <AnyOut outID="shnek" outID2="shnek2"/> : <AnyOut outID="setsShnek1" outID2="setsShnek2"/>}
           </span>
         </span>
         <span className="widget__span-info-item widget__span-info-item_flex">
           <img className="widget__span-info-img" src="images/ventel.png" alt=""/>
           <span className="widget__span-flex">
-            {<AnyOut outID="ventel" outID2="ventel2"/>}
+          {+pid > 1 && +pid < 4 ? <AnyOut outID="ventel" outID2="ventel2"/> : <AnyOut outID="setsVent1" outID2="setsVent2"/>}
           </span>
         </span>
       </span>
