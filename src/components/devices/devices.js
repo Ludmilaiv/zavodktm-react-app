@@ -8,7 +8,7 @@ import data from "../../data";
 import store from "../../store";
 import { setDevs } from "../../actions";
 import { Oval } from  'react-loader-spinner';
-import QrScaner from "../qrScaner";
+//import QrScaner from "../qrScaner";
 
 const Devices = ({showActivePage, devices=null}) => {
 
@@ -20,7 +20,7 @@ const Devices = ({showActivePage, devices=null}) => {
   const [errMessage, errMessageSet] = useState("");
   const [errId, errIdSet] = useState("");
   const [errName, errNameSet] = useState("");
-  const [enabled, setEnabled] = useState(false);
+  //const [enabled, setEnabled] = useState(false);
 
   localStorage.removeItem(localStorage.getItem('user') + "defaultDevice");
 
@@ -49,7 +49,14 @@ const Devices = ({showActivePage, devices=null}) => {
 
   useEffect(() => {
     getDevices();
-    const getDevsInterval = setInterval(getDevices,5000)
+    const getDevsInterval = setInterval(getDevices,5000);
+    if (window.location.href.indexOf('qr') !== -1) {
+      addPopupShow(true);
+      const urlSplit = window.location.href.split("=");
+      if (urlSplit.length > 1) {
+        idSet(urlSplit[1]);
+      }
+    }
     return function cleanup() {
       clearInterval(getDevsInterval);
     }
@@ -114,31 +121,34 @@ const Devices = ({showActivePage, devices=null}) => {
     }
   }
 
-  const onNewScanResult = (decodedText) => {
-    if (decodedText) {
-      idSet(decodedText);
-    } else {
-      errIdSet('Не удалось распознать qr-код. Введите идентификатор вручную');
-    }
-  };
+  // const onNewScanResult = (decodedText) => {
+  //   if (decodedText) {
+  //     idSet(decodedText);
+  //   } else {
+  //     errIdSet('Не удалось распознать qr-код. Введите идентификатор вручную');
+  //   }
+  // };
 
   const addHTML = 
   <div className="form popup__form form_flex">
     <label className="form__label" htmlFor="devID">Введите или отсканируйте идентификатор устройства</label>
     <div className="form__input-wrapper">
       <input value={id} placeholder='ID устройства' onChange={handleChangeId} className={`form__input ${errId} form__input_grow`} type="text" name="devID"/>
-      <button className='form__scan-button' onClick={() => setEnabled(!enabled)}>
+      <a className='form__scan-button' href="?qr">
+        <img className="form__scan-img" src={'images/qrscan.svg'} alt=""/>
+      </a>
+      {/* <button className='form__scan-button' onClick={() => setEnabled(!enabled)}>
         <img className="form__scan-img" src={!enabled ? 'images/qrscan.svg' : 'images/krest.svg'} alt=""/>
         
-      </button>
-      <QrScaner
+      </button> */}
+      {/* <QrScaner
                 fps={10}
                 qrbox={{width: 150, height: 150}}
                 disableFlip={false}
                 qrCodeSuccessCallback={onNewScanResult}  
                 setEnabled={setEnabled}  
                 enabled={enabled}           
-            />
+            /> */}
     </div>   
     
     <label className="form__label" htmlFor="devName">Дайте имя своему устройству</label>

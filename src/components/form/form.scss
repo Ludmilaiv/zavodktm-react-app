@@ -24,7 +24,7 @@
 		border-radius: $border-radius;
 		color: $font-color-main;
 		&_grow {
-			flex-grow: 1;
+			width: 85%;
 		}
 		&-wrapper {
 			display: flex;
