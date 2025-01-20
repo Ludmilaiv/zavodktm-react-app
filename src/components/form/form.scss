@@ -12,7 +12,7 @@
 	}
 	&__input {
 		&_err {
-		border-color: $font-color-highlight;
+			border-color: $font-color-highlight;
 		}
 		margin: 0 0 4vw 0;
 		margin: 0 0 calc(var(--vh, 1vh) * 4) 0;
@@ -23,9 +23,49 @@
 		border: $border;
 		border-radius: $border-radius;
 		color: $font-color-main;
+		&_grow {
+			flex-grow: 1;
+		}
+		&-wrapper {
+			display: flex;
+			position: relative;
+		}
 	}
 	&__button {
 		margin-bottom: 3vw;
+	}
+	&__scan-button {
+		margin: 0 0 4vw 5px;
+		margin: 0 0 calc(var(--vh, 1vh) * 4) 5px;
+		background: transparent;
+		height: 4.5vw;
+		height: calc(var(--vh, 1vh) * 4.5);
+		width: 4.5vw;
+		width: calc(var(--vh, 1vh) * 4.5);
+		display: flex;
+		border: 0;
+	}
+	&__absolut {
+		position: absolute !important;
+		left: 5px;
+		right: 5px;
+		top: 5.5vw;
+		top: calc(var(--vh, 1vh) * 5.5);
+		min-height: 150px;
+		border: 2px rgb(228, 77, 77) solid;
+		overflow: hidden;
+		border-radius: 5px;
+		background-color: black;
+		background-image: url("../../../public/images/spiner.gif");
+		background-size: auto 80%;
+		background-position: center;
+		background-repeat: no-repeat;
+		video {
+			width: 100% !important;
+		}
+	}
+	&__scan-img {
+		height: 100%;
 	}
 	&__label {
 		display: block;

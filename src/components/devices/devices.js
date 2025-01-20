@@ -7,8 +7,8 @@ import axios from "axios";
 import data from "../../data";
 import store from "../../store";
 import { setDevs } from "../../actions";
-import { Oval } from  'react-loader-spinner'
-
+import { Oval } from  'react-loader-spinner';
+import QrScaner from "../qrScaner";
 
 const Devices = ({showActivePage, devices=null}) => {
 
@@ -20,6 +20,7 @@ const Devices = ({showActivePage, devices=null}) => {
   const [errMessage, errMessageSet] = useState("");
   const [errId, errIdSet] = useState("");
   const [errName, errNameSet] = useState("");
+  const [enabled, setEnabled] = useState(false);
 
   localStorage.removeItem(localStorage.getItem('user') + "defaultDevice");
 
@@ -64,6 +65,7 @@ const Devices = ({showActivePage, devices=null}) => {
     errIdSet("");
     idSet(event.target.value);
   }
+
 
   const addDevice = () => {
     errMessageSet("");
@@ -112,10 +114,33 @@ const Devices = ({showActivePage, devices=null}) => {
     }
   }
 
+  const onNewScanResult = (decodedText) => {
+    if (decodedText) {
+      idSet(decodedText);
+    } else {
+      errIdSet('Не удалось распознать qr-код. Введите идентификатор вручную');
+    }
+  };
+
   const addHTML = 
   <div className="form popup__form form_flex">
-    <label className="form__label" htmlFor="devID">Введите идентификатор устройства</label>
-    <input value={id} placeholder='ID устройства' onChange={handleChangeId} className={`form__input ${errId}`} type="text" name="devID"/>
+    <label className="form__label" htmlFor="devID">Введите или отсканируйте идентификатор устройства</label>
+    <div className="form__input-wrapper">
+      <input value={id} placeholder='ID устройства' onChange={handleChangeId} className={`form__input ${errId} form__input_grow`} type="text" name="devID"/>
+      <button className='form__scan-button' onClick={() => setEnabled(!enabled)}>
+        <img className="form__scan-img" src={!enabled ? 'images/qrscan.svg' : 'images/krest.svg'} alt=""/>
+        
+      </button>
+      <QrScaner
+                fps={10}
+                qrbox={{width: 150, height: 150}}
+                disableFlip={false}
+                qrCodeSuccessCallback={onNewScanResult}  
+                setEnabled={setEnabled}  
+                enabled={enabled}           
+            />
+    </div>   
+    
     <label className="form__label" htmlFor="devName">Дайте имя своему устройству</label>
     <input maxLength={30} value={name} placeholder='Наример,"Котёл в гараже"' onChange={handleChangeName} className={`form__input ${errName}`} type="text" name="devName"/>
     <div className="form__label form__error">{errMessage}</div>
